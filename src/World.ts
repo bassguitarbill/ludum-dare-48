@@ -1,11 +1,17 @@
 import TileSet from "./TileSet.js";
 import { loadJson } from "./load.js";
 import { Vector2 } from "./math.js";
+import AABBHitbox from "./AABBHitbox.js";
 
 export default class World {
   animationTimer = 0;
   waterLevel = 20;
-  constructor(readonly mapData: TileMapData, readonly tileSets: Array<TileSet>) {}
+  terrainLayer: MapDataLayer;
+  constructor(readonly mapData: TileMapData, readonly tileSets: Array<TileSet>) {
+    const terrainLayer = this.mapData.layers.find(l => l.name === 'terrain');
+    if (!terrainLayer) throw 'No terrain layer in map data';
+    this.terrainLayer = terrainLayer;
+  }
   
   static async loadInstance(mapFilePath: string): Promise<World> {
     const mapData: TileMapData = await loadJson(mapFilePath);
@@ -67,6 +73,10 @@ export default class World {
     }
   }
 
+  getTileIndex(x: number, y: number) {
+    return (this.terrainLayer.width * y) + x;
+  }
+
   getAllSpawners(): Array<ObjectData> {
     const eventsLayer = this.mapData.layers.find(layer => layer.name === 'events');
     if (!eventsLayer) return [];
@@ -78,9 +88,20 @@ export default class World {
     if (!spawn) throw 'No player spawn object found in map';
     return new Vector2(spawn.x, spawn.y);
   }
+
+  collides(hitbox: AABBHitbox) {
+    let topLeftTileX = Math.floor(hitbox.topLeft.x / this.mapData.tilewidth);
+    let topLeftTileY = Math.floor(hitbox.topLeft.y / this.mapData.tileheight);
+    let bottomRightTileX = Math.floor(hitbox.bottomRight.x / this.mapData.tilewidth);
+    let bottomRightTileY = Math.floor(hitbox.bottomRight.y / this.mapData.tileheight);
+    for (let x=topLeftTileX; x < bottomRightTileX; x++) {
+      for (let y=topLeftTileY; y < bottomRightTileY; y++) {
+        if (this.terrainLayer.data[this.getTileIndex(x, y)] > 0) return true;
+      }
+    }
+    return false;
+  }
 }
-
-
 
 interface TileMapData {
   compressionlevel: number,
