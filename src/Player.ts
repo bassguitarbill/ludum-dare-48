@@ -38,6 +38,8 @@ export default class Player extends Entity {
   thrustDirectionChangeSpeed = 0.003;
   thrusting = false;
 
+  vertical = 0;
+
   collisionNormal = new Vector2();
 
   constructor(readonly game: Game, readonly position: Vector2) {
@@ -68,9 +70,9 @@ export default class Player extends Entity {
       if (isControlPressed(Controls.LEFT)) this.thrustTarget = -1;
       if (isControlPressed(Controls.RIGHT)) this.thrustTarget = 1;
 
-      if (isControlPressed(Controls.UP)) this.velocity.y = -0.1;
-      else if (isControlPressed(Controls.DOWN)) this.velocity.y = 0.1;
-      else this.velocity.y = 0;
+      if (isControlPressed(Controls.UP)) this.vertical = -0.4;
+      else if (isControlPressed(Controls.DOWN)) this.vertical = 0.4;
+      else this.vertical = 0;
     
   }
 
@@ -89,19 +91,26 @@ export default class Player extends Entity {
       if (Math.random() > 0.9) new Bubble(this.game, Vector2.sumOf(this.position, this.bubbleOffsets[this.getTurnIndex()]));
     }
 
+    if (this.vertical > 0) if (Math.random() > 0.88) new Bubble(this.game, Vector2.sumOf(this.position, new Vector2((Math.random() * 5) + 3.5, 10)));
+    this.velocity.y += (this.vertical * dt * this.acceleration);
+
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
+
+    this.velocity = this.velocity.times(0.993);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     Player.spritesheet.draw(ctx, this.x, this.y, this.getTurnIndex(), 0);
-    if ((window as any).debug) this.subHitboxes[this.getTurnIndex()].draw(ctx);
-    if (!this.collisionNormal.isZeroVector()) {
-      ctx.strokeStyle = 'white';
-      ctx.beginPath();
-      ctx.moveTo(this.x, this.y);
-      ctx.lineTo(this.collisionNormal.times(20).x + this.x, this.collisionNormal.times(20).y + this.y);
-      ctx.stroke();
+    if ((window as any).debug) {
+      this.subHitboxes[this.getTurnIndex()].draw(ctx);
+      if (!this.collisionNormal.isZeroVector()) {
+        ctx.strokeStyle = 'white';
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.collisionNormal.times(20).x + this.x, this.collisionNormal.times(20).y + this.y);
+        ctx.stroke();
+      }
     }
   }
 
