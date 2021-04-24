@@ -1,12 +1,13 @@
 import TileSet from "./TileSet.js";
 import { loadJson } from "./load.js";
+import { Vector2 } from "./math.js";
 
 export default class World {
   animationTimer = 0;
   waterLevel = 20;
   constructor(readonly mapData: TileMapData, readonly tileSets: Array<TileSet>) {}
   
-  static async load(mapFilePath: string): Promise<World> {
+  static async loadInstance(mapFilePath: string): Promise<World> {
     const mapData: TileMapData = await loadJson(mapFilePath);
     const tileSets: Array<TileSet> = [];
     await Promise.all(mapData.tilesets.map(async (ts, index) => {
@@ -22,7 +23,10 @@ export default class World {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = 'lightblue';
+    ctx.fillRect(0, 0, this.mapData.width * this.mapData.tilewidth, this.mapData.height * this.mapData.tileheight);
+
+    ctx.fillStyle = 'darkblue';
     this.mapData.height * this.mapData.tileheight
     ctx.fillRect(0, this.waterLevel, this.mapData.width * this.mapData.tilewidth, (this.mapData.height * this.mapData.tileheight) - this.waterLevel);
 
@@ -62,7 +66,21 @@ export default class World {
       }
     }
   }
+
+  getAllSpawners(): Array<ObjectData> {
+    const eventsLayer = this.mapData.layers.find(layer => layer.name === 'events');
+    if (!eventsLayer) return [];
+    return eventsLayer.objects.filter(object => object.type === 'spawn');
+
+  }
+  getPlayerSpawnLocation(): Vector2 {
+    const spawn = this.getAllSpawners().find(object => object.properties.find(property => property.name === 'objectName' && property.value === 'player'));
+    if (!spawn) throw 'No player spawn object found in map';
+    return new Vector2(spawn.x, spawn.y);
+  }
 }
+
+
 
 interface TileMapData {
   compressionlevel: number,
@@ -112,7 +130,7 @@ interface ObjectData {
         {
           name: string,
           type: string,
-          value: number,
+          value: number | string,
         }],
   rotation: number,
   type: string,

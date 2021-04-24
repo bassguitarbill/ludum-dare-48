@@ -5,22 +5,25 @@ export default class Game {
   timestamp: number = 0;
   ctx: CanvasRenderingContext2D;
   camera = {
-    scale: 3,
+    scale: 4,
     x: 0,
     y: 0,
   };
+  readonly player: Player;
 
-  constructor(readonly world: World, readonly player: Player) {
+  constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
     this.ctx = canvas.getContext('2d')!;
     this.ctx.imageSmoothingEnabled = false;
     this.tick = this.tick.bind(this);
+
+    this.player = new Player(this, world.getPlayerSpawnLocation())
   }
 
   static async load(): Promise<Game> {
-    const world = await World.load('maps/test-map.json');
-    const player = await Player.load();
-    return new Game(world, player);
+    const world = await World.loadInstance('maps/test-map.json');
+    await Player.load();
+    return new Game(world);
   }
 
   run() {

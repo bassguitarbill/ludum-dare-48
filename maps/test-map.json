@@ -20,9 +20,56 @@
          "width":10,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":2,
+         "name":"events",
+         "objects":[
+                {
+                 "height":0,
+                 "id":1,
+                 "name":"playerSpawn",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"player"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":43.1198478123018,
+                 "y":24.857324032974
+                }, 
+                {
+                 "height":0,
+                 "id":2,
+                 "name":"spawnPearl",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"pearl"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":56.8167406467977,
+                 "y":122.764743183259
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":2,
- "nextobjectid":1,
+ "nextlayerid":3,
+ "nextobjectid":3,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",
