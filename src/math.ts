@@ -7,6 +7,9 @@ class Vector2 {
     const scaleFactor = Math.sqrt(lengthSquared) / scale;
     return new Vector2(this.x / scaleFactor, this.y / scaleFactor);
   }
+  static sumOf(v1: Vector2, v2: Vector2): Vector2 {
+    return new Vector2(v1.x + v2.x, v1.y + v2.y);
+  }
   add(x: number, y: number): void {
     this.x += x;
     this.y += y;
@@ -30,6 +33,9 @@ class Vector2 {
   }
   isZeroVector(): boolean {
     return this.x === 0 && this.y === 0;
+  }
+  clone(): Vector2 {
+    return new Vector2(this.x, this.y);
   }
 }
 

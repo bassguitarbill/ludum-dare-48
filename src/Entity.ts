@@ -2,8 +2,13 @@ import Game from "./Game.js";
 import { Vector2 } from "./math.js";
 
 export default class Entity {
-  position = new Vector2();
-  constructor(readonly game: Game) {}
+  constructor(readonly game: Game, readonly position: Vector2) {
+    game.addEntity(this);
+  }
+
+  destroy() {
+    this.game.removeEntity(this);
+  }
 
   tick(_: number){};
   draw(_: CanvasRenderingContext2D){};

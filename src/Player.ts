@@ -1,23 +1,29 @@
+import Bubble from "./Bubble.js";
 import Entity from "./Entity.js";
-import Game from "./Game.js";
 import { Controls, isControlPressed } from "./Input.js";
 import { Vector2 } from "./math.js";
 import Spritesheet from "./Spritesheet.js";
 
 export default class Player extends Entity {
   static spritesheet: Spritesheet;
+  bubbleOffsets = [
+    new Vector2(1, 7),
+    new Vector2(4, 7),
+    new Vector2(8, 7),
+    new Vector2(10, 7),
+    new Vector2(12, 7),
+    new Vector2(15, 7),
+    new Vector2(18, 7),
+  ]
 
   animationTimer = 0;
 
   velocity = new Vector2();
-  VELOCITY = 0.00012;
+  VELOCITY = 0.00010;
   thrustDirection = 1;
   thrustTarget = 1;
   thrustDirectionChangeSpeed = 0.003;
   thrusting = false;
-  constructor(readonly game: Game, readonly position: Vector2) {
-    super(game);
-  }
 
   static async load() {
     Player.spritesheet = await Spritesheet.load('assets/images/bathysphere.png', 20, 32);
@@ -51,7 +57,8 @@ export default class Player extends Entity {
 
   move(dt: number) {
     if (this.thrusting) {
-      this.velocity.x += (this.thrustDirection * dt * this.VELOCITY)
+      this.velocity.x += (this.thrustDirection * dt * this.VELOCITY);
+      if (Math.random() > 0.9) new Bubble(this.game, Vector2.sumOf(this.position, this.bubbleOffsets[this.getSprite()]));
     }
 
     this.position.x += this.velocity.x;
