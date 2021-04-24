@@ -1,0 +1,24 @@
+you are an earthworm, dig for treasure
+you are a mole / vole, dig for treasure
+you are Mulch Diggums, a dwarf from the Artemis Fowl books, dig for treasure 
+  Hard to imagine how this could be fun, not a lot of movement options underground
+  Would have to be puzzle-y maybe, avoid rockfalls like dig dug
+
+you are piloting a submarine, explore underwater caves, but don't run out of air or get crushed by high pressure or eaten by a sea monster
+  i like the idea of a little wind-waker grappling hook coming out of your craft
+    that could get real physics-y, real fast: i'll have to see how feasible that is, make a quick demo
+    alternately, use matter.js
+  could I make this a little roguelike?
+    grab a treasure, bring it back to the surface, get it installed, now your hull can withstand more pressure / you have a drill
+    this could lead to a nice three-act thing
+      tutorial, learn how to use the hook, use the hook to unlock a thing
+      with the thing, more of the world is open to you, get a couple more things, letting you go even deeper
+      last unlock lets you go down into some trench, where you'll encounter a boss
+    
+
+you are dreaming, and as you drift deeper into sleep your dreams get weirder. bart's nightmare?
+
+deep into the forest, what mysteries will you uncover?
+
+Steal Chris' idea of a game featuring fractals
+
