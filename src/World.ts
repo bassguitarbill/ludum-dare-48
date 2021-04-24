@@ -7,6 +7,9 @@ export default class World {
   animationTimer = 0;
   waterLevel = 20;
   terrainLayer: MapDataLayer;
+
+  colliderData: Array<Array<number>> = [];
+  checkingTheseTiles: Array<number> = [];
   constructor(readonly mapData: TileMapData, readonly tileSets: Array<TileSet>) {
     const terrainLayer = this.mapData.layers.find(l => l.name === 'terrain');
     if (!terrainLayer) throw 'No terrain layer in map data';
@@ -39,6 +42,15 @@ export default class World {
     if(!this.mapData) return;
     const terrainLayer = this.mapData.layers.find(l => l.name === 'terrain');
     if (terrainLayer) this.drawLayer(ctx, terrainLayer);
+
+    ctx.fillStyle = "red"
+    for (let x=0; x<this.colliderData.length; x++) {
+      for (let y=0; y<this.colliderData[x].length; y++) {
+        if (this.colliderData[x][y]) {
+          ctx.fillRect(x * 20, y*20, 20, 20)
+        }
+      }
+    }
   }
 
   drawLayer(ctx: CanvasRenderingContext2D, layer: MapDataLayer) {
@@ -49,6 +61,11 @@ export default class World {
     
     for (let x=0; x < layer.width; x++) {
       for (let y=0; y < layer.height; y++) {
+        if (this.checkingTheseTiles.includes((layer.width * y) + x)) {
+          ctx.fillStyle = 'pink';
+          //ctx.fillRect(x * tilesetData.tilewidth, y * tilesetData.tileheight, tilesetData.tilewidth, tilesetData.tileheight);
+          //continue
+        }
         const tileIndex = layer.data[(layer.width * y) + x];
         if (tileIndex === 0) continue; // Empty tile
         
@@ -94,12 +111,27 @@ export default class World {
     let topLeftTileY = Math.floor(hitbox.topLeft.y / this.mapData.tileheight);
     let bottomRightTileX = Math.floor(hitbox.bottomRight.x / this.mapData.tilewidth);
     let bottomRightTileY = Math.floor(hitbox.bottomRight.y / this.mapData.tileheight);
-    for (let x=topLeftTileX; x < bottomRightTileX; x++) {
-      for (let y=topLeftTileY; y < bottomRightTileY; y++) {
-        if (this.terrainLayer.data[this.getTileIndex(x, y)] > 0) return true;
+    this.colliderData = [];
+    this.checkingTheseTiles = [];
+    let collides = false;
+    for (let x=topLeftTileX; x <= bottomRightTileX; x++) {
+      this.colliderData.push([]);
+      for (let y=topLeftTileY; y <= bottomRightTileY; y++) {
+        const tileIndex = this.getTileIndex(x, y);
+        this.checkingTheseTiles.push(tileIndex);
+        const tileData = this.terrainLayer.data[tileIndex];
+        this.colliderData[x - topLeftTileX].push(tileData)
+        if (tileData > 0) {
+          collides = true;
+        }
       }
     }
-    return false;
+    if (collides && this.colliderData[0].length === 1) {
+      this.colliderData.forEach(d => d.push(d[0]))
+    } if (collides && this.colliderData.length === 1) {
+      this.colliderData.push(this.colliderData[0]);
+    }
+    return collides;
   }
 }
 

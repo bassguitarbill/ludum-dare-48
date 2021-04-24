@@ -38,6 +38,8 @@ export default class Player extends Entity {
   thrustDirectionChangeSpeed = 0.003;
   thrusting = false;
 
+  collisionNormal = new Vector2();
+
   constructor(readonly game: Game, readonly position: Vector2) {
     super(game, position);
     this.subHitboxes = this.generateSubHitboxes();
@@ -53,11 +55,11 @@ export default class Player extends Entity {
     this.processInput();
     this.changeThrustDirection(dt);
 
-    this.move(dt);
     const currentHitbox = this.getCurrentSubHitbox();
     currentHitbox.offset = this.position;
-
     this.checkCollision(currentHitbox);
+    this.move(dt);
+    currentHitbox.offset = this.position;
   }
 
   processInput() {
@@ -65,6 +67,10 @@ export default class Player extends Entity {
 
       if (isControlPressed(Controls.LEFT)) this.thrustTarget = -1;
       if (isControlPressed(Controls.RIGHT)) this.thrustTarget = 1;
+
+      if (isControlPressed(Controls.UP)) this.velocity.y = -0.1;
+      else if (isControlPressed(Controls.DOWN)) this.velocity.y = 0.1;
+      else this.velocity.y = 0;
     
   }
 
@@ -84,11 +90,19 @@ export default class Player extends Entity {
     }
 
     this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     Player.spritesheet.draw(ctx, this.x, this.y, this.getTurnIndex(), 0);
     if ((window as any).debug) this.subHitboxes[this.getTurnIndex()].draw(ctx);
+    if (!this.collisionNormal.isZeroVector()) {
+      ctx.strokeStyle = 'white';
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.lineTo(this.collisionNormal.times(20).x + this.x, this.collisionNormal.times(20).y + this.y);
+      ctx.stroke();
+    }
   }
 
   getTurnIndex() {
@@ -110,6 +124,23 @@ export default class Player extends Entity {
   }
 
   checkCollision(hitbox: AABBHitbox) {
-    if (this.game.world.collides(hitbox)) console.log('Ouche')
+    this.collisionNormal = new Vector2();
+    const collides = this.game.world.collides(hitbox);
+    if (!collides) return;
+    const collisionData = this.game.world.colliderData;
+    const centerX = (collisionData[0].length / 2) - 0.5;
+    const centerY = (collisionData.length / 2) - 0.5;
+    const normal = new Vector2();
+    for (let x=0; x<collisionData.length; x++) {
+      for (let y=0; y<collisionData[x].length; y++) {
+        if (collisionData[x][y]) {
+          const direction = new Vector2(centerX - x, centerY - y).normalize(); // Add a vector pointing from the center AWAY from the colliding tile
+          normal.add(direction.x, direction.y);
+        }
+      }
+    }
+    this.collisionNormal = normal;
+    const cos = Math.cos(this.velocity.angle() - normal.angle());
+    if (cos < -0.01) this.velocity = new Vector2();
   }
 }
