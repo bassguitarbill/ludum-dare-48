@@ -8,6 +8,7 @@ import Spritesheet from "./Spritesheet.js";
 
 export default class Player extends Entity {
   static spritesheet: Spritesheet;
+  static clawSpritesheet: Spritesheet;
   bubbleOffsets = [
     new Vector2(1, 7),
     new Vector2(4, 7),
@@ -40,6 +41,10 @@ export default class Player extends Entity {
 
   vertical = 0;
 
+  clawPosition = 0;
+  clawTarget = 0;
+  clawPositionChangeSpeed = 0.01;
+
   collisionNormal = new Vector2();
 
   constructor(readonly game: Game, readonly position: Vector2) {
@@ -49,6 +54,7 @@ export default class Player extends Entity {
 
   static async load() {
     Player.spritesheet = await Spritesheet.load('assets/images/bathysphere.png', 20, 32);
+    Player.clawSpritesheet = await Spritesheet.load('assets/images/claw.png', 7, 12);
   }
 
   tick(dt: number) {
@@ -56,6 +62,7 @@ export default class Player extends Entity {
 
     this.processInput();
     this.changeThrustDirection(dt);
+    this.changeClawPosition(dt);
 
     const currentHitbox = this.getCurrentSubHitbox();
     currentHitbox.offset = this.position;
@@ -73,7 +80,10 @@ export default class Player extends Entity {
       if (isControlPressed(Controls.UP)) this.vertical = -0.4;
       else if (isControlPressed(Controls.DOWN)) this.vertical = 0.4;
       else this.vertical = 0;
-    
+
+      if (isControlPressed(Controls.CLAW_EXTEND)) {
+        if (this.clawPosition === this.clawTarget) this.clawTarget = 12 - this.clawTarget;
+      } 
   }
 
   changeThrustDirection(dt: number) {
@@ -83,6 +93,15 @@ export default class Player extends Entity {
     this.thrustDirection += (dir * dt * this.thrustDirectionChangeSpeed);
 
     if (Math.abs(this.thrustDirection) > Math.abs(this.thrustTarget)) this.thrustDirection = this.thrustTarget;
+  }
+
+  changeClawPosition(dt: number) {
+    if (this.clawPosition === this.clawTarget) return;
+    const dir = Math.sign(this.clawTarget - this.clawPosition);
+    this.clawPosition += (dir * dt * this.clawPositionChangeSpeed);
+
+    if (this.clawPosition < 0) this.clawPosition = 0;
+    if (this.clawPosition > 12) this.clawPosition = 12;
   }
 
   move(dt: number) {
@@ -101,6 +120,7 @@ export default class Player extends Entity {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    this.drawClaw(ctx);
     Player.spritesheet.draw(ctx, this.x, this.y, this.getTurnIndex(), 0);
     if ((window as any).debug) {
       this.subHitboxes[this.getTurnIndex()].draw(ctx);
@@ -112,6 +132,10 @@ export default class Player extends Entity {
         ctx.stroke();
       }
     }
+  }
+
+  drawClaw(ctx: CanvasRenderingContext2D) {
+    Player.clawSpritesheet.draw(ctx, this.x + 6, this.y + 2 + this.clawPosition, 0, 0);
   }
 
   getTurnIndex() {

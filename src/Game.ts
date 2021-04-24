@@ -1,5 +1,6 @@
 import Bubble from "./Bubble.js";
 import Entity from "./Entity.js";
+import Pearl from "./Pearl.js";
 import Player from "./Player.js";
 import World from "./World.js";
 
@@ -21,12 +22,14 @@ export default class Game {
     this.tick = this.tick.bind(this);
 
     this.player = new Player(this, world.getPlayerSpawnLocation())
+    this.world.spawnObjects(this);
   }
 
   static async load(): Promise<Game> {
     const world = await World.loadInstance('maps/test-map.json');
     await Player.load();
     await Bubble.load();
+    await Pearl.load();
     return new Game(world);
   }
 

@@ -2,6 +2,8 @@ import TileSet from "./TileSet.js";
 import { loadJson } from "./load.js";
 import { Vector2 } from "./math.js";
 import AABBHitbox from "./AABBHitbox.js";
+import Pearl from "./Pearl.js";
+import Game from "./Game.js";
 
 export default class World {
   animationTimer = 0;
@@ -104,6 +106,18 @@ export default class World {
     const spawn = this.getAllSpawners().find(object => object.properties.find(property => property.name === 'objectName' && property.value === 'player'));
     if (!spawn) throw 'No player spawn object found in map';
     return new Vector2(spawn.x, spawn.y);
+  }
+
+  spawnObjects(game: Game) {
+    this.getAllSpawners().forEach(spawner => {
+      const prop = spawner.properties.find(prop => prop.name === 'objectName');
+      if (!prop) return;
+      switch(prop.value) {
+        case 'pearl':
+          new Pearl(game, new Vector2(spawner.x, spawner.y));
+          break;
+      }
+    })
   }
 
   collides(hitbox: AABBHitbox) {

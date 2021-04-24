@@ -20,6 +20,8 @@ const keyboardMap: { [key: string]: Controls} = {
   d: Controls.RIGHT,
 
   ' ': Controls.THRUST,
+
+  'z': Controls.CLAW_EXTEND,
 }
 
 const controlMap = {
@@ -28,7 +30,7 @@ const controlMap = {
   [Controls.LEFT]: ['a', 'ArrowLeft'],
   [Controls.RIGHT]: ['d', 'ArrowRight'],
   [Controls.THRUST]: [' '],
-  [Controls.CLAW_EXTEND]: [],
+  [Controls.CLAW_EXTEND]: ['z'],
   [Controls.CLAW_RELEASE]: [],
 }
 
