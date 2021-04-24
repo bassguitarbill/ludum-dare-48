@@ -46,6 +46,11 @@ export default class Player extends Entity {
   clawTarget = 0;
   clawPositionChangeSpeed = 0.01;
 
+  clawOpen = true;
+  holdingClawReleaseKey = false;
+
+  currentlyGrapsedItem: Entity | null = null;
+
   collisionNormal = new Vector2();
 
   constructor(readonly game: Game, readonly position: Vector2) {
@@ -70,11 +75,13 @@ export default class Player extends Entity {
     currentHitbox.offset = this.position;
     this.setClawHitboxOffset();
 
-    this.checkClawCollision();
+    this.checkClawTerrainCollision();
 
     this.checkCollision();
     this.move(dt);
     currentHitbox.offset = this.position;
+
+    this.moveCurrentlyGraspedItem();
   }
 
   setClawHitboxOffset() {
@@ -93,7 +100,17 @@ export default class Player extends Entity {
 
       if (isControlPressed(Controls.CLAW_EXTEND)) {
         if (this.clawPosition === this.clawTarget) this.clawTarget = 12 - this.clawTarget;
-      } 
+      }
+
+      if (isControlPressed(Controls.CLAW_RELEASE)) {
+        if (!this.holdingClawReleaseKey) {
+          if(this.clawOpen) this.closeClaw();
+          else this.openClaw();
+        }
+        this.holdingClawReleaseKey = true;
+      } else {
+        this.holdingClawReleaseKey = false;
+      }
   }
 
   changeThrustDirection(dt: number) {
@@ -129,6 +146,14 @@ export default class Player extends Entity {
     this.velocity = this.velocity.times(0.993);
   }
 
+  moveCurrentlyGraspedItem() {
+    const cgi = this.currentlyGrapsedItem;
+    if (!cgi) return;
+    const newPosition = Vector2.sumOf(new Vector2(), this.clawHitbox.offset);
+    cgi.position.x = newPosition.x;
+    cgi.position.y = newPosition.y;
+  }
+
   draw(ctx: CanvasRenderingContext2D) {
     this.drawClaw(ctx);
     Player.spritesheet.draw(ctx, this.x, this.y, this.getTurnIndex(), 0);
@@ -145,7 +170,7 @@ export default class Player extends Entity {
   }
 
   drawClaw(ctx: CanvasRenderingContext2D) {
-    Player.clawSpritesheet.draw(ctx, this.x + 6, this.y + 2 + this.clawPosition, 0, 0);
+    Player.clawSpritesheet.draw(ctx, this.x + 6, this.y + 2 + this.clawPosition, this.clawOpen ? 0 : 1, 0);
     if ((window as any).debug) this.clawHitbox.draw(ctx);
   }
 
@@ -167,11 +192,11 @@ export default class Player extends Entity {
     return this.subHitboxes[this.getTurnIndex()];
   }
 
-  checkClawCollision() {
+  checkClawTerrainCollision() {
     if (this.clawPosition === 0) return;
     const collides = this.game.world.collides(this.clawHitbox);
     if (collides) {
-      //open claw
+      this.openClaw();
       this.clawTarget = 0;
     } 
   }
@@ -195,5 +220,24 @@ export default class Player extends Entity {
     this.collisionNormal = normal;
     const cos = Math.cos(this.velocity.angle() - normal.angle());
     if (cos < -0.01) this.velocity = new Vector2();
+  }
+
+  openClaw() {
+    this.currentlyGrapsedItem = null;
+    this.clawOpen = true;
+  }
+
+  closeClaw() {
+    this.clawOpen = false;
+    for (let i=0; i<this.game.entities.length; i++) {
+      const entity = this.game.entities[i];
+      if (entity instanceof Player) continue;
+      const entityHitbox = entity.getHitbox();
+      if (!entityHitbox) continue;
+      if (entityHitbox.collides(this.clawHitbox)) {
+        this.currentlyGrapsedItem = entity;
+        break;
+      }
+    }
   }
 }

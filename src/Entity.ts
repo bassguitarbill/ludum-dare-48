@@ -1,3 +1,4 @@
+import AABBHitbox from "./AABBHitbox.js";
 import Game from "./Game.js";
 import { Vector2 } from "./math.js";
 
@@ -24,5 +25,9 @@ export default class Entity {
   }
   set y(y) {
     this.position.y = y;
+  }
+
+  getHitbox(): AABBHitbox | null {
+    return null;
   }
 }

@@ -22,6 +22,7 @@ const keyboardMap: { [key: string]: Controls} = {
   ' ': Controls.THRUST,
 
   'z': Controls.CLAW_EXTEND,
+  'x': Controls.CLAW_RELEASE,
 }
 
 const controlMap = {
@@ -31,7 +32,7 @@ const controlMap = {
   [Controls.RIGHT]: ['d', 'ArrowRight'],
   [Controls.THRUST]: [' '],
   [Controls.CLAW_EXTEND]: ['z'],
-  [Controls.CLAW_RELEASE]: [],
+  [Controls.CLAW_RELEASE]: ['x'],
 }
 
 const currentlyPressedKeys: {[key: string]: boolean} = {};

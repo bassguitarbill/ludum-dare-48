@@ -32,4 +32,7 @@ export default class Pearl extends Entity {
   collide() {
     if (this.game.world.collides(this.hitbox)) this.velocity.y = 0;
   }
+  getHitbox() {
+    return this.hitbox;
+  }
 }
