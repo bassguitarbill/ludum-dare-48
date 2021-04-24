@@ -28,6 +28,7 @@ export default class Player extends Entity {
     [4, 2, 16, 13],
   ];
   subHitboxes: Array<AABBHitbox>;
+  clawHitbox: AABBHitbox;
 
   animationTimer = 0;
 
@@ -50,6 +51,7 @@ export default class Player extends Entity {
   constructor(readonly game: Game, readonly position: Vector2) {
     super(game, position);
     this.subHitboxes = this.generateSubHitboxes();
+    this.clawHitbox = new AABBHitbox(new Vector2(0, 0), new Vector2(4, 4))
   }
 
   static async load() {
@@ -66,9 +68,17 @@ export default class Player extends Entity {
 
     const currentHitbox = this.getCurrentSubHitbox();
     currentHitbox.offset = this.position;
-    this.checkCollision(currentHitbox);
+    this.setClawHitboxOffset();
+
+    this.checkClawCollision();
+
+    this.checkCollision();
     this.move(dt);
     currentHitbox.offset = this.position;
+  }
+
+  setClawHitboxOffset() {
+    this.clawHitbox.offset = Vector2.sumOf(this.position, new Vector2(7.5, 8 + this.clawPosition))
   }
 
   processInput() {
@@ -136,6 +146,7 @@ export default class Player extends Entity {
 
   drawClaw(ctx: CanvasRenderingContext2D) {
     Player.clawSpritesheet.draw(ctx, this.x + 6, this.y + 2 + this.clawPosition, 0, 0);
+    if ((window as any).debug) this.clawHitbox.draw(ctx);
   }
 
   getTurnIndex() {
@@ -156,9 +167,18 @@ export default class Player extends Entity {
     return this.subHitboxes[this.getTurnIndex()];
   }
 
-  checkCollision(hitbox: AABBHitbox) {
+  checkClawCollision() {
+    if (this.clawPosition === 0) return;
+    const collides = this.game.world.collides(this.clawHitbox);
+    if (collides) {
+      //open claw
+      this.clawTarget = 0;
+    } 
+  }
+
+  checkCollision() {
     this.collisionNormal = new Vector2();
-    const collides = this.game.world.collides(hitbox);
+    const collides = this.game.world.collides(this.getCurrentSubHitbox());
     if (!collides) return;
     const collisionData = this.game.world.colliderData;
     const centerX = (collisionData[0].length / 2) - 0.5;
