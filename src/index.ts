@@ -15,6 +15,7 @@ window.addEventListener('load', async () => {
 function sizeCanvas() {
   canvas!.width = window.innerWidth;
   canvas!.height = window.innerHeight;
+  canvas!.getContext('2d')!.imageSmoothingEnabled = false;
 }
 
 window.addEventListener('resize', sizeCanvas)
