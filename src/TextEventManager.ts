@@ -35,7 +35,7 @@ const textEventMap: { [key in string]: string} = {
   pressureText1: 'I don\'t know if I\'d go much farther down, that\'s a lot of water pressure!',
   pressureText2: 'I don\'t know if I\'d go much farther down, that\'s a lot of water pressure!',
   pressureText3: 'I don\'t know if I\'d go much farther down, that\'s a lot of water pressure!',
-  treasureText1: 'It looks like there\'s something below this floor, we might need that!',
+  treasureText1: 'I know the pressure is high, but we need to get that chest down there. Stay as high as you can!',
   treasureText2: 'It looks like it might have fallen down that hole!',
   bossApproachText: 'Be careful in there!',
 }

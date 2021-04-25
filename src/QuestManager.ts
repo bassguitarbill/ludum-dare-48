@@ -1,3 +1,4 @@
+import Boat from "./Boat.js";
 import Game from "./Game.js";
 import { Vector2 } from "./math.js";
 import PickableObject from "./PickableObject.js";
@@ -50,9 +51,12 @@ export default class QuestManager {
 const questSteps = [
   { task: 'obtain', item: 1, message: 'Can you take the sub down and find my luggage? I dropped it overboard',
     reminder: 'The luggage should be right under the boat. If you can\'t find it, look deeper!',
-    onComplete: (_: Game) => {}},
-  { task: 'retrieve', item: 1, message: 'You\'ve got it! Please bring it back to the boat!',
-    reminder: 'Bring it back to the boat, please! Left side of the map, and at the surface!',
+    onComplete: (game: Game) => {
+      game.entities.find(e => e instanceof Boat)?.destroy();
+      new Boat(game, new Vector2(800, 60));
+    }},
+  { task: 'retrieve', item: 1, message: 'You\'ve got it! I\'ll meet you over to the right of this tunnel, up at the surface!',
+    reminder: 'Bring it back to the boat, please! Middle of the map, and at the surface!',
     onComplete: (game: Game) => {
       SFX.play('pickup.wav');
       game.player.currentlyGrapsedItem?.destroy();

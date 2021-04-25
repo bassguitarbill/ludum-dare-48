@@ -256,8 +256,8 @@
                  "type":"spawn",
                  "visible":true,
                  "width":0,
-                 "x":370,
-                 "y":150
+                 "x":355.333333333333,
+                 "y":507.333333333333
                 }, 
                 {
                  "height":0,
@@ -274,8 +274,8 @@
                  "type":"spawn",
                  "visible":true,
                  "width":0,
-                 "x":410,
-                 "y":147.666666666667
+                 "x":1699.33333333333,
+                 "y":557
                 }, 
                 {
                  "height":0,
@@ -292,8 +292,8 @@
                  "type":"spawn",
                  "visible":true,
                  "width":0,
-                 "x":452.666666666667,
-                 "y":141
+                 "x":1630,
+                 "y":1062.33333333333
                 }, 
                 {
                  "height":0,
@@ -325,7 +325,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":25,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

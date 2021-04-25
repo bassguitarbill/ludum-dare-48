@@ -38,11 +38,13 @@ export default class Boat extends Entity {
     } else {
       this.playerIsColliding = false;
     }
-    if (this.game.player.currentlyGrapsedItem && this.game.player.getCurrentSubHitbox().collides(this.itemDeliveryHitbox)) {
-      console.log('want this?')
-      console.log(this.game.player.currentlyGrapsedItem)
-      this.game.questManager.retrieve(this.game.player.currentlyGrapsedItem);
+    if (this.game.player.getCurrentSubHitbox().collides(this.itemDeliveryHitbox)) {
+      this.game.player.healthPercentage = 1.0;
+      if (this.game.player.currentlyGrapsedItem) {
+        this.game.questManager.retrieve(this.game.player.currentlyGrapsedItem);
+      }
     }
+   
   }
 
 }
