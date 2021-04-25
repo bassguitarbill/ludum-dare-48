@@ -21,7 +21,6 @@ export default class Enemy extends Entity {
 
   constructor(readonly game: Game, readonly position: Vector2, readonly direction: number) {
     super(game, position);
-    console.log('yes;')
   }
 
   draw(ctx: CanvasRenderingContext2D) {

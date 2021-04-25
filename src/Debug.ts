@@ -6,6 +6,7 @@ export default class Debug {
   constructor(readonly game: Game) {
     this.warps = game.world.eventsLayer.objects.filter(o => o.type === 'warp');
     window.addEventListener('keydown', ev => {
+      if (!(window as any).debug) return;
       const warp = this.warps.find(o => o.name === ev.key);
       if (warp) {
         this.game.player.position.x = warp.x;

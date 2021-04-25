@@ -158,7 +158,7 @@
                 {
                  "height":52,
                  "id":13,
-                 "name":"pressureText3",
+                 "name":"pressureTextOld",
                  "rotation":0,
                  "type":"text",
                  "visible":true,
@@ -522,8 +522,8 @@
                  "type":"spawn",
                  "visible":true,
                  "width":0,
-                 "x":973.333333333333,
-                 "y":841.333333333333
+                 "x":981.333333333333,
+                 "y":852
                 }, 
                 {
                  "height":0,
@@ -754,6 +754,75 @@
                  "width":0,
                  "x":1683.5,
                  "y":957.5
+                }, 
+                {
+                 "height":0,
+                 "id":45,
+                 "name":"enemy1",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"enemy"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":612,
+                 "y":548
+                }, 
+                {
+                 "height":0,
+                 "id":46,
+                 "name":"enemy1",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"enemy"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":485.333333333333,
+                 "y":665.333333333333
+                }, 
+                {
+                 "height":0,
+                 "id":47,
+                 "name":"enemy1",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"enemy"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":972,
+                 "y":569.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -774,7 +843,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":45,
+ "nextobjectid":48,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",
