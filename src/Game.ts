@@ -9,6 +9,7 @@ import MessageManager from "./MessageManager.js";
 import Pearl from "./Pearl.js";
 import Player from "./Player.js";
 import Text from "./Text.js";
+import TextEventManager from "./TextEventManager.js";
 import World from "./World.js";
 
 export default class Game {
@@ -23,6 +24,7 @@ export default class Game {
   readonly entities: Array<Entity> = [];
   readonly gui: GUI;
   readonly messageManager: MessageManager;
+  readonly textEventManager: TextEventManager;
 
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
@@ -39,6 +41,8 @@ export default class Game {
     this.messageManager.sendMessage("Show this first", 3);
     this.messageManager.sendMessage("Show this third", 0);
     this.messageManager.sendMessage("Show this second", 2);
+
+    this.textEventManager = new TextEventManager(this);
   }
 
   static async load(): Promise<Game> {
@@ -66,6 +70,7 @@ export default class Game {
     this.entities.forEach(e => e.tick(dt));
     this.player.tick(dt);
     this.messageManager.tick(dt);
+    this.textEventManager.tick(dt);
 
     this.scaleCamera();
     
