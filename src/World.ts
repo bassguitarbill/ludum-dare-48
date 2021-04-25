@@ -4,6 +4,7 @@ import { Vector2 } from "./math.js";
 import AABBHitbox from "./AABBHitbox.js";
 import Pearl from "./Pearl.js";
 import Game from "./Game.js";
+import Boat from "./Boat.js";
 
 export default class World {
   animationTimer = 0;
@@ -124,6 +125,9 @@ export default class World {
       switch(prop.value) {
         case 'pearl':
           new Pearl(game, new Vector2(spawner.x, spawner.y));
+          break;
+        case 'boat':
+          new Boat(game, new Vector2(spawner.x, spawner.y));
           break;
       }
     })

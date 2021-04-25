@@ -1,4 +1,5 @@
 import BGM from "./BGM.js";
+import Boat from "./Boat.js";
 import Bubble from "./Bubble.js";
 import Debug from "./Debug.js";
 import Entity from "./Entity.js";
@@ -49,6 +50,7 @@ export default class Game {
     await BGM.load('assets/audio/bgm.ogg');
     await Text.load();
     await Gobo.load();
+    await Boat.load();
     return new Game(world);
   }
 

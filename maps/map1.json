@@ -222,6 +222,24 @@
                  "width":0,
                  "x":287.878787878788,
                  "y":930
+                }, 
+                {
+                 "height":0,
+                 "id":20,
+                 "name":"boatSpawn",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"boat"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":300,
+                 "y":60
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -230,7 +248,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":20,
+ "nextobjectid":21,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",
