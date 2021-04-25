@@ -39,7 +39,18 @@ export default class GUI {
   drawPressureGauge(ctx: CanvasRenderingContext2D) {
     const pressure = this.game.player.pressurePercentage;
     const hasArmor = this.game.player.hasArmor;
-    GUI.pressureGaugeSpritesheet.draw(ctx, ctx.canvas.width * 0.8, 10, Math.floor(pressure * 8), hasArmor ? 1 : 0)
+    const pressureStage = this.getPressureStage(pressure);
+    GUI.pressureGaugeSpritesheet.draw(ctx, ctx.canvas.width * 0.8, 10, pressureStage, hasArmor ? 1 : 0)
+  }
+
+  getPressureStage(pressure: number) {
+    return  pressure < 0.06 ? 0 :
+            pressure < 0.12 ? 1 :
+            pressure < 0.18 ? 2 :
+            pressure < 0.24 ? 3 :
+            pressure < 0.32 ? 4 :
+            pressure < 0.40 ? 5 :
+            pressure < 0.50 ? 6 : 7;
   }
 
   drawUpgrades(ctx: CanvasRenderingContext2D) {

@@ -1,5 +1,6 @@
 import BGM from "./BGM.js";
 import Bubble from "./Bubble.js";
+import Debug from "./Debug.js";
 import Entity from "./Entity.js";
 import GUI from "./GUI.js";
 import Pearl from "./Pearl.js";
@@ -31,6 +32,7 @@ export default class Game {
     this.world.spawnObjects(this);
 
     this.gui = new GUI(this);
+    new Debug(this);
   }
 
   static async load(): Promise<Game> {

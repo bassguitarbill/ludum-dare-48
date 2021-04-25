@@ -53,9 +53,11 @@ export default class Player extends Entity {
 
   healthPercentage = .5;
   pressurePercentage = .5;
+  dangerousPressure = 0.40;
+  pressureDamageFactor = 0.01;
 
   hasClaw = true;
-  hasArmor = true;
+  hasArmor = false;
   hasFlashlight = true;
 
   depth = 10;
@@ -77,6 +79,9 @@ export default class Player extends Entity {
   tick(dt: number) {
     this.animationTimer += dt;
 
+    this.setPressurePercentage();
+    this.dealPressureDamage();
+
     this.processInput();
     this.changeThrustDirection(dt);
     this.changeClawPosition(dt);
@@ -92,6 +97,20 @@ export default class Player extends Entity {
     currentHitbox.offset = this.position;
 
     this.moveCurrentlyGraspedItem();
+  }
+
+  setPressurePercentage() {
+    const maxDepth = this.game.world.mapData.height * this.game.world.mapData.tileheight;
+    const minDepth = this.game.world.waterLevel;
+    const depth = this.position.y;
+    const depthRange = maxDepth - minDepth;
+    this.pressurePercentage = (depth - minDepth) / depthRange;
+  }
+
+  dealPressureDamage() {
+    const howUnsafe = this.pressurePercentage - this.dangerousPressure;
+    if (howUnsafe < 0) return;
+    this.healthPercentage -= howUnsafe * this.pressureDamageFactor;
   }
 
   setClawHitboxOffset() {

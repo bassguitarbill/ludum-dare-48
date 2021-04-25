@@ -9,6 +9,7 @@ export default class World {
   animationTimer = 0;
   waterLevel = 20;
   terrainLayer: MapDataLayer;
+  eventsLayer: MapDataLayer;
 
   colliderData: Array<Array<number>> = [];
   checkingTheseTiles: Array<number> = [];
@@ -18,6 +19,7 @@ export default class World {
     this.terrainLayer = terrainLayer;
     const eventsLayer = this.mapData.layers.find(l => l.name === 'events');
     if (!eventsLayer) throw 'No events layer in map data';
+    this.eventsLayer = eventsLayer;
     console.log(eventsLayer.objects.find(o => o.name === 'waterLevel'))
     this.waterLevel = eventsLayer.objects.find(o => o.name === 'waterLevel')?.y || 0;
   }
@@ -211,4 +213,4 @@ interface ObjectData {
   y: number,
 }
 
-export { MapDataLayer };
+export { MapDataLayer, ObjectData };
