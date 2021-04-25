@@ -2,7 +2,8 @@ Color palette is an extension of Seafoam: https://lospec.com/palette-list/seafoa
 
 Map was created using Tiled: https://www.mapeditor.org
 
-Sound was created using Bosca Ceoil: https://boscaceoil.net
+Music was created using Bosca Ceoil: https://boscaceoil.net
 
-Art was created using Aseprite: https://www.aseprite.org
+Sound was created with BFXR: http://www.bfxr.net
 
+Art was created using Aseprite: https://www.aseprite.org and GIMP: https://www.gimp.org
