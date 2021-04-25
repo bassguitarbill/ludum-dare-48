@@ -35,4 +35,40 @@ export default class Pearl extends Entity {
   getHitbox() {
     return this.hitbox;
   }
+  onRelease() {
+    if (!this.game.world.collides(this.hitbox)) return;
+    const originalOffset = this.hitbox.offset;
+
+    let newOffset = Vector2.sumOf(originalOffset, new Vector2(-8, 0));
+    this.hitbox.offset = newOffset;
+    if (!this.game.world.collides(this.hitbox)){
+      this.position.x -= 8;
+      this.hitbox.offset = originalOffset;
+      return;
+    }
+
+    newOffset = Vector2.sumOf(originalOffset, new Vector2(8, 0));
+    this.hitbox.offset = newOffset;
+    if (!this.game.world.collides(this.hitbox)){
+      this.position.x += 8;
+      this.hitbox.offset = originalOffset;
+      return;
+    }
+
+    newOffset = Vector2.sumOf(originalOffset, new Vector2(0, -8));
+    this.hitbox.offset = newOffset;
+    if (!this.game.world.collides(this.hitbox)){
+      this.position.y -= 8;
+      this.hitbox.offset = originalOffset;
+      return;
+    }
+
+    newOffset = Vector2.sumOf(originalOffset, new Vector2(0, 8));
+    this.hitbox.offset = newOffset;
+    if (!this.game.world.collides(this.hitbox)){
+      this.position.y += 8;
+      this.hitbox.offset = originalOffset;
+      return;
+    }
+  }
 }

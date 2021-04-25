@@ -31,7 +31,7 @@ export default class Game {
   }
 
   static async load(): Promise<Game> {
-    const world = await World.loadInstance('maps/map1.json');
+    const world = await World.loadInstance('maps/test-map.json');
     await Player.load();
     await Bubble.load();
     await Pearl.load();

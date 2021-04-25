@@ -30,4 +30,6 @@ export default class Entity {
   getHitbox(): AABBHitbox | null {
     return null;
   }
+
+  onRelease(): void {}
 }

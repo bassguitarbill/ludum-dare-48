@@ -233,6 +233,7 @@ export default class Player extends Entity {
   }
 
   openClaw() {
+    this.currentlyGrapsedItem?.onRelease();
     this.currentlyGrapsedItem = null;
     this.clawOpen = true;
   }
