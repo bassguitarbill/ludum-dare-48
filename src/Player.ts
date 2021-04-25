@@ -274,4 +274,8 @@ export default class Player extends Entity {
       }
     }
   }
+
+  getHitbox() {
+    return this.getCurrentSubHitbox();
+  }
 }
