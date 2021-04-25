@@ -56,7 +56,7 @@ export default class Player extends Entity {
   healthPercentage = 1.0;
   pressurePercentage = 0.0;
   dangerousPressure = 0.40;
-  pressureDamageFactor = 0.01;
+  pressureDamageFactor = 0.03;
 
   hasClaw = true;
   hasArmor = false;
@@ -262,7 +262,7 @@ export default class Player extends Entity {
     this.collisionNormal = normal;
     const cos = Math.cos(this.velocity.angle() - normal.angle());
     if (cos < 0) {// Stop driving into the rocks
-      this.healthPercentage += cos * 0.005;
+      this.healthPercentage += cos * 0.003;
       SFX.play('crash.wav');
     } 
     if (cos < -0.01) this.velocity = new Vector2();
