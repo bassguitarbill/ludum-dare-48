@@ -15,6 +15,5 @@ export default class BGM {
       audioElement.loop = true;
     }
     window.addEventListener('click', somebodyClicked);
-    console.log('yes')
   }
 }

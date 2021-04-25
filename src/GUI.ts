@@ -63,7 +63,7 @@ export default class GUI {
   }
 
   drawComms(ctx: CanvasRenderingContext2D) {
-    const message = this.game.textToDisplay;
+    const message = this.game.messageManager.currentMessage?.text;
     if (!message) return;
 
     const alpha = ctx.globalAlpha;

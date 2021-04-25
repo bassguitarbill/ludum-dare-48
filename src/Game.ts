@@ -3,6 +3,7 @@ import Bubble from "./Bubble.js";
 import Debug from "./Debug.js";
 import Entity from "./Entity.js";
 import GUI from "./GUI.js";
+import MessageManager from "./MessageManager.js";
 import Pearl from "./Pearl.js";
 import Player from "./Player.js";
 import Text from "./Text.js";
@@ -19,8 +20,7 @@ export default class Game {
   readonly player: Player;
   readonly entities: Array<Entity> = [];
   readonly gui: GUI;
-
-  textToDisplay = "The quick brown fox jumps over the lazy dog! Isn't that amazing?";
+  readonly messageManager: MessageManager;
 
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
@@ -33,6 +33,11 @@ export default class Game {
 
     this.gui = new GUI(this);
     new Debug(this);
+    this.messageManager = new MessageManager();
+    this.messageManager.sendMessage("Show this first", 3);
+    this.messageManager.sendMessage("Show this third", 0);
+    this.messageManager.sendMessage("Show this second", 2);
+
   }
 
   static async load(): Promise<Game> {
@@ -57,6 +62,7 @@ export default class Game {
     this.world.tick(dt);
     this.entities.forEach(e => e.tick(dt));
     this.player.tick(dt);
+    this.messageManager.tick(dt);
 
     this.scaleCamera();
     
