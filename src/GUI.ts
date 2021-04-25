@@ -58,8 +58,8 @@ export default class GUI {
     const alpha = ctx.globalAlpha;
     ctx.globalAlpha = .9;
     ctx.fillStyle = '#f4e9d4';
-    ctx.fillRect(190, ctx.canvas.height - 110, 500, 90);
-    this.commsText ||= new Text(new Vector2(200, ctx.canvas.height - 100), 30, message);
+    ctx.fillRect((ctx.canvas.width * 0.1) - 10, ctx.canvas.height - 110, 500, 90);
+    this.commsText ||= new Text(new Vector2(ctx.canvas.width * 0.1, ctx.canvas.height - 100), 30, message);
     this.commsText.message = message;
     this.commsText.draw(ctx);
     ctx.globalAlpha = alpha;

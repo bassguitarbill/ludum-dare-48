@@ -153,6 +153,10 @@ export default class Player extends Entity {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
+    if (this.position.y < this.game.world.waterLevel - 10) {
+      this.velocity.y += .07;
+    }
+
     this.velocity = this.velocity.times(0.993);
   }
 

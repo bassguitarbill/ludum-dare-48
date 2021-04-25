@@ -16,6 +16,10 @@ export default class World {
     const terrainLayer = this.mapData.layers.find(l => l.name === 'terrain');
     if (!terrainLayer) throw 'No terrain layer in map data';
     this.terrainLayer = terrainLayer;
+    const eventsLayer = this.mapData.layers.find(l => l.name === 'events');
+    if (!eventsLayer) throw 'No events layer in map data';
+    console.log(eventsLayer.objects.find(o => o.name === 'waterLevel'))
+    this.waterLevel = eventsLayer.objects.find(o => o.name === 'waterLevel')?.y || 0;
   }
   
   static async loadInstance(mapFilePath: string): Promise<World> {
@@ -45,14 +49,14 @@ export default class World {
     const terrainLayer = this.mapData.layers.find(l => l.name === 'terrain');
     if (terrainLayer) this.drawLayer(ctx, terrainLayer);
 
-    ctx.fillStyle = "red"
+    /* ctx.fillStyle = "red"
     for (let x=0; x<this.colliderData.length; x++) {
       for (let y=0; y<this.colliderData[x].length; y++) {
         if (this.colliderData[x][y]) {
           ctx.fillRect(x * 20, y*20, 20, 20)
         }
       }
-    }
+    }*/
   }
 
   drawLayer(ctx: CanvasRenderingContext2D, layer: MapDataLayer) {
