@@ -1,3 +1,4 @@
+import BGM from "./BGM.js";
 import Bubble from "./Bubble.js";
 import Entity from "./Entity.js";
 import Pearl from "./Pearl.js";
@@ -30,6 +31,7 @@ export default class Game {
     await Player.load();
     await Bubble.load();
     await Pearl.load();
+    await BGM.load('assets/audio/bgm.ogg');
     return new Game(world);
   }
 
