@@ -1,4 +1,5 @@
 import Game from "./Game.js";
+import Gobo from "./Gobo.js";
 import { Vector2 } from "./math.js";
 import Spritesheet from "./Spritesheet.js";
 import Text from './Text.js';
@@ -8,7 +9,11 @@ export default class GUI {
   static upgradesSpritesheet: Spritesheet;
 
   commsText? : Text;
-  constructor(readonly game: Game){}
+
+  gobo: Gobo;
+  constructor(readonly game: Game){
+    this.gobo = new Gobo(game);
+  }
 
   static async load() {
     GUI.pressureGaugeSpritesheet = await Spritesheet.load('assets/images/pressure-gauge.png', 128, 128);
@@ -16,6 +21,7 @@ export default class GUI {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    this.gobo.draw(ctx);
     this.drawHealthBar(ctx);
     this.drawPressureGauge(ctx);
     this.drawUpgrades(ctx);

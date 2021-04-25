@@ -2,6 +2,7 @@ import BGM from "./BGM.js";
 import Bubble from "./Bubble.js";
 import Debug from "./Debug.js";
 import Entity from "./Entity.js";
+import Gobo from "./Gobo.js";
 import GUI from "./GUI.js";
 import MessageManager from "./MessageManager.js";
 import Pearl from "./Pearl.js";
@@ -37,7 +38,6 @@ export default class Game {
     this.messageManager.sendMessage("Show this first", 3);
     this.messageManager.sendMessage("Show this third", 0);
     this.messageManager.sendMessage("Show this second", 2);
-
   }
 
   static async load(): Promise<Game> {
@@ -48,6 +48,7 @@ export default class Game {
     await GUI.load();
     await BGM.load('assets/audio/bgm.ogg');
     await Text.load();
+    await Gobo.load();
     return new Game(world);
   }
 

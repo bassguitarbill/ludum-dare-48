@@ -7,7 +7,9 @@ import Game from "./Game.js";
 
 export default class World {
   animationTimer = 0;
-  waterLevel = 20;
+  waterLevel = 0;
+  darknessLevel = 0;
+  maxDarknessLevel = 0;
   terrainLayer: MapDataLayer;
   eventsLayer: MapDataLayer;
 
@@ -21,6 +23,8 @@ export default class World {
     if (!eventsLayer) throw 'No events layer in map data';
     this.eventsLayer = eventsLayer;
     this.waterLevel = eventsLayer.objects.find(o => o.name === 'waterLevel')?.y || 0;
+    this.darknessLevel = eventsLayer.objects.find(o => o.name === 'darknessLevel')?.y || 0;
+    this.maxDarknessLevel = eventsLayer.objects.find(o => o.name === 'maxDarknessLevel')?.y || 0;
   }
   
   static async loadInstance(mapFilePath: string): Promise<World> {
