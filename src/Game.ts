@@ -1,6 +1,7 @@
 import BGM from "./BGM.js";
 import Bubble from "./Bubble.js";
 import Entity from "./Entity.js";
+import GUI from "./GUI.js";
 import Pearl from "./Pearl.js";
 import Player from "./Player.js";
 import World from "./World.js";
@@ -15,6 +16,7 @@ export default class Game {
   };
   readonly player: Player;
   readonly entities: Array<Entity> = [];
+  readonly gui: GUI;
 
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
@@ -24,6 +26,8 @@ export default class Game {
 
     this.player = new Player(this, world.getPlayerSpawnLocation())
     this.world.spawnObjects(this);
+
+    this.gui = new GUI(this);
   }
 
   static async load(): Promise<Game> {
@@ -31,6 +35,7 @@ export default class Game {
     await Player.load();
     await Bubble.load();
     await Pearl.load();
+    await GUI.load();
     await BGM.load('assets/audio/bgm.ogg');
     return new Game(world);
   }
@@ -54,6 +59,7 @@ export default class Game {
     this.world.draw(this.ctx);
     this.entities.forEach(e => e.draw(this.ctx));
     this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.gui.draw(this.ctx);
     requestAnimationFrame(this.tick);
   }
 

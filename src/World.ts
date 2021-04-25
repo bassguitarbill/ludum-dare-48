@@ -35,7 +35,7 @@ export default class World {
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = 'lightblue';
-    ctx.fillRect(0, 0, this.mapData.width * this.mapData.tilewidth, this.mapData.height * this.mapData.tileheight);
+    ctx.fillRect(-this.mapData.width * this.mapData.tilewidth, -this.mapData.height * this.mapData.tileheight, 2 * this.mapData.width * this.mapData.tilewidth, 2 * this.mapData.height * this.mapData.tileheight);
 
     ctx.fillStyle = 'darkblue';
     this.mapData.height * this.mapData.tileheight

@@ -51,6 +51,16 @@ export default class Player extends Entity {
 
   currentlyGrapsedItem: Entity | null = null;
 
+  healthPercentage = .5;
+  pressurePercentage = .5;
+
+  hasClaw = true;
+  hasArmor = true;
+  hasFlashlight = true;
+
+  depth = 10;
+  maxDepth = 100;
+
   collisionNormal = new Vector2();
 
   constructor(readonly game: Game, readonly position: Vector2) {
