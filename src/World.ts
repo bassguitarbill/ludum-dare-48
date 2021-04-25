@@ -54,7 +54,10 @@ export default class World {
 
     if(!this.mapData) return;
     const terrainLayer = this.mapData.layers.find(l => l.name === 'terrain');
-    if (terrainLayer) this.drawLayer(ctx, terrainLayer);
+    if (terrainLayer) this.drawLayer(ctx, terrainLayer, this.tileSets[0]);
+
+    const doodadLayer = this.mapData.layers.find(l => l.name === 'doodads');
+    if (doodadLayer) this.drawLayer(ctx, doodadLayer, this.tileSets[1]);
 
     /* ctx.fillStyle = "red"
     for (let x=0; x<this.colliderData.length; x++) {
@@ -66,34 +69,18 @@ export default class World {
     }*/
   }
 
-  drawLayer(ctx: CanvasRenderingContext2D, layer: MapDataLayer) {
-    const tileset = this.tileSets[0];
+  drawLayer(ctx: CanvasRenderingContext2D, layer: MapDataLayer, tileset: TileSet) {
+    //const tileset = this.tileSets[0];
     const tilesetData = tileset.tileSetData!;
     const image = tileset.image;
     const columns = tilesetData.columns;
     
     for (let x=0; x < layer.width; x++) {
       for (let y=0; y < layer.height; y++) {
-        if (this.checkingTheseTiles.includes((layer.width * y) + x)) {
-          ctx.fillStyle = 'pink';
-          //ctx.fillRect(x * tilesetData.tilewidth, y * tilesetData.tileheight, tilesetData.tilewidth, tilesetData.tileheight);
-          //continue
-        }
         const tileIndex = layer.data[(layer.width * y) + x];
         if (tileIndex === 0) continue; // Empty tile
         
         let tileFromSet = tileIndex - tileset.firstgid;
-        /*const animationTile = tilesetData.tiles.find(t => t.id === tileFromSet);
-        if(animationTile) {
-          let animationTimer = this.animationTimer + (x + y) * 20; // Change this line to make it propagate differently, probably
-          animationTimer %= this.animationTimings.slice(-1)[0];
-          let currentFrame = 0;
-          for (let f=0; f < this.animationFrames.length; f++) {
-            currentFrame = this.animationFrames[f];
-            if (animationTimer < this.animationTimings[f]) break;
-          }
-          tileFromSet = animationTile.animation[currentFrame].tileid;
-        }*/
 
         const tileImageX = (tileFromSet % columns) * tilesetData.tilewidth;
         const tileImageY = Math.floor(tileFromSet / columns) * tilesetData.tileheight;
