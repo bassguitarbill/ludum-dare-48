@@ -116,7 +116,7 @@ export default class Player extends Entity {
   }
 
   dealPressureDamage() {
-    return
+    if (this.hasArmor) return;
     const howUnsafe = this.pressurePercentage - this.dangerousPressure;
     if (howUnsafe < 0) return;
     this.healthPercentage -= howUnsafe * this.pressureDamageFactor;

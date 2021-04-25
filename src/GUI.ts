@@ -32,6 +32,7 @@ export default class GUI {
     this.drawComms(ctx);
     this.drawControls(ctx);
     this.drawGameOver(ctx);
+    this.drawFrameRate(ctx);
   }
 
   drawHealthBar(ctx: CanvasRenderingContext2D) {
@@ -99,5 +100,11 @@ export default class GUI {
     if (!this.game.isGameOver) return;
     const image = GUI.gameOverImage;
     ctx.drawImage(image, (ctx.canvas.width / 2) - (image.width / 2) , (ctx.canvas.height / 2) - (image.height / 2));
+  }
+
+  drawFrameRate(ctx: CanvasRenderingContext2D) {
+    if (!(window as any).debug) return;
+    ctx.fillStyle = 'black';
+    ctx.fillText(String(this.game.framerate), 20, 20)
   }
 }
