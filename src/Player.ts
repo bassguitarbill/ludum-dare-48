@@ -104,8 +104,8 @@ export default class Player extends Entity {
       if (isControlPressed(Controls.LEFT)) this.thrustTarget = -1;
       if (isControlPressed(Controls.RIGHT)) this.thrustTarget = 1;
 
-      if (isControlPressed(Controls.UP)) this.vertical = -0.4;
-      else if (isControlPressed(Controls.DOWN)) this.vertical = 0.4;
+      if (isControlPressed(Controls.UP)) this.vertical = -0.6;
+      else if (isControlPressed(Controls.DOWN)) this.vertical = 0.6;
       else this.vertical = 0;
 
       if (isControlPressed(Controls.CLAW_EXTEND)) {
