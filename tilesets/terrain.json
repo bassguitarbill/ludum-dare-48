@@ -1,5 +1,5 @@
 { "columns":6,
- "image":"..\/assets\/images\/terrain.png",
+ "image":".\/assets\/images\/terrain.png",
  "imageheight":96,
  "imagewidth":96,
  "margin":0,
