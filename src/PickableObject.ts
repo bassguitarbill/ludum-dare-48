@@ -4,23 +4,23 @@ import Game from "./Game.js";
 import { Vector2 } from "./math.js";
 import Spritesheet from "./Spritesheet.js";
 
-export default class Pearl extends Entity {
+export default class PickableObject extends Entity {
   static spritesheet: Spritesheet;
   hitbox: AABBHitbox;
 
   velocity = new Vector2();
 
-  constructor(readonly game: Game, readonly position: Vector2) {
+  constructor(readonly game: Game, readonly position: Vector2, readonly itemType: number) {
     super(game, position);
     this.hitbox = new AABBHitbox(new Vector2(1,1), new Vector2(7,7));
   }
 
   static async load() {
-    Pearl.spritesheet = await Spritesheet.load('assets/images/pearl.png', 8, 8);
+    PickableObject.spritesheet = await Spritesheet.load('assets/images/pearl.png', 8, 8);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    Pearl.spritesheet.draw(ctx, this.x, this.y, 0, 0)
+    PickableObject.spritesheet.draw(ctx, this.x, this.y, this.itemType, 0)
     if ((window as any).debug) this.hitbox.draw(ctx);
   }
   tick(dt: number) {
@@ -34,6 +34,12 @@ export default class Pearl extends Entity {
   }
   getHitbox() {
     return this.hitbox;
+  }
+  onPickup() {
+    if (this.itemType === 2) {
+      this.destroy();
+      this.game.questManager.destroy(this);
+    }
   }
   onRelease() {
     if (!this.game.world.collides(this.hitbox)) return;

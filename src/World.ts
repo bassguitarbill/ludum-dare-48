@@ -2,7 +2,7 @@ import TileSet from "./TileSet.js";
 import { loadJson } from "./load.js";
 import { Vector2 } from "./math.js";
 import AABBHitbox from "./AABBHitbox.js";
-import Pearl from "./Pearl.js";
+import PickableObject from "./PickableObject.js";
 import Game from "./Game.js";
 import Boat from "./Boat.js";
 
@@ -124,7 +124,13 @@ export default class World {
       if (!prop) return;
       switch(prop.value) {
         case 'pearl':
-          new Pearl(game, new Vector2(spawner.x, spawner.y));
+          new PickableObject(game, new Vector2(spawner.x, spawner.y), 0);
+          break;
+        case 'chest':
+          new PickableObject(game, new Vector2(spawner.x, spawner.y), 2);
+          break;
+        case 'luggage':
+          new PickableObject(game, new Vector2(spawner.x, spawner.y), 1);
           break;
         case 'boat':
           new Boat(game, new Vector2(spawner.x, spawner.y));

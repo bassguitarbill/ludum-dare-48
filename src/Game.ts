@@ -6,8 +6,9 @@ import Entity from "./Entity.js";
 import Gobo from "./Gobo.js";
 import GUI from "./GUI.js";
 import MessageManager from "./MessageManager.js";
-import Pearl from "./Pearl.js";
+import PickableObject from "./PickableObject.js";
 import Player from "./Player.js";
+import QuestManager from "./QuestManager.js";
 import Text from "./Text.js";
 import TextEventManager from "./TextEventManager.js";
 import World from "./World.js";
@@ -25,6 +26,7 @@ export default class Game {
   readonly gui: GUI;
   readonly messageManager: MessageManager;
   readonly textEventManager: TextEventManager;
+  readonly questManager: QuestManager;
 
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
@@ -38,18 +40,17 @@ export default class Game {
     this.gui = new GUI(this);
     new Debug(this);
     this.messageManager = new MessageManager();
-    this.messageManager.sendMessage("Show this first", 3);
-    this.messageManager.sendMessage("Show this third", 0);
-    this.messageManager.sendMessage("Show this second", 2);
 
     this.textEventManager = new TextEventManager(this);
+
+    this.questManager = new QuestManager(this);
   }
 
   static async load(): Promise<Game> {
     const world = await World.loadInstance('maps/map1.json');
     await Player.load();
     await Bubble.load();
-    await Pearl.load();
+    await PickableObject.load();
     await GUI.load();
     await BGM.load('assets/audio/bgm.ogg');
     await Text.load();
@@ -71,6 +72,7 @@ export default class Game {
     this.player.tick(dt);
     this.messageManager.tick(dt);
     this.textEventManager.tick(dt);
+    this.questManager.tick(dt);
 
     this.scaleCamera();
     

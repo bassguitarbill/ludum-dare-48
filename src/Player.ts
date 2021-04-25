@@ -4,6 +4,7 @@ import Entity from "./Entity.js";
 import Game from "./Game.js";
 import { Controls, isControlPressed } from "./Input.js";
 import { Vector2 } from "./math.js";
+import PickableObject from "./PickableObject.js";
 import Spritesheet from "./Spritesheet.js";
 
 export default class Player extends Entity {
@@ -49,7 +50,7 @@ export default class Player extends Entity {
   clawOpen = true;
   holdingClawReleaseKey = false;
 
-  currentlyGrapsedItem: Entity | null = null;
+  currentlyGrapsedItem: PickableObject | null = null;
 
   healthPercentage = .5;
   pressurePercentage = .5;
@@ -266,10 +267,13 @@ export default class Player extends Entity {
     for (let i=0; i<this.game.entities.length; i++) {
       const entity = this.game.entities[i];
       if (entity instanceof Player) continue;
+      if (!(entity instanceof PickableObject)) continue;
       const entityHitbox = entity.getHitbox();
       if (!entityHitbox) continue;
       if (entityHitbox.collides(this.clawHitbox)) {
-        this.currentlyGrapsedItem = entity;
+        this.currentlyGrapsedItem = (entity as PickableObject);
+        this.currentlyGrapsedItem.onPickup();
+        this.game.questManager.obtain(this.currentlyGrapsedItem);
         break;
       }
     }

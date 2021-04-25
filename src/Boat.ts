@@ -14,15 +14,18 @@ export default class Boat extends Entity {
   }
 
   readonly hitbox: AABBHitbox;
+  readonly itemDeliveryHitbox: AABBHitbox;
   playerIsColliding = false;
 
   constructor(readonly game: Game, readonly position: Vector2) {
     super(game, position);
     this.hitbox = new AABBHitbox(Vector2.sumOf(position, new Vector2(5, 24)), Vector2.sumOf(position, new Vector2(42, 30)))
+    this.itemDeliveryHitbox = new AABBHitbox(Vector2.sumOf(position, new Vector2(-15, 0)), Vector2.sumOf(position, new Vector2(80, 50)))
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.drawImage(Boat.image, this.x, this.y);
+    this.itemDeliveryHitbox.draw(ctx);
     this.hitbox.draw(ctx);
   }
 
@@ -35,5 +38,11 @@ export default class Boat extends Entity {
     } else {
       this.playerIsColliding = false;
     }
+    if (this.game.player.currentlyGrapsedItem && this.game.player.getCurrentSubHitbox().collides(this.itemDeliveryHitbox)) {
+      console.log('want this?')
+      console.log(this.game.player.currentlyGrapsedItem)
+      this.game.questManager.retrieve(this.game.player.currentlyGrapsedItem);
+    }
   }
+
 }

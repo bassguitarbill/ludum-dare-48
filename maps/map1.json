@@ -70,8 +70,8 @@
                  "type":"warp",
                  "visible":true,
                  "width":0,
-                 "x":662.666666666667,
-                 "y":452
+                 "x":450,
+                 "y":425
                 }, 
                 {
                  "height":0,
@@ -240,6 +240,60 @@
                  "width":0,
                  "x":300,
                  "y":60
+                }, 
+                {
+                 "height":0,
+                 "id":21,
+                 "name":"spawnLuggage",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"luggage"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":370,
+                 "y":150
+                }, 
+                {
+                 "height":0,
+                 "id":22,
+                 "name":"spawnChest1",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"chest"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":410,
+                 "y":147.666666666667
+                }, 
+                {
+                 "height":0,
+                 "id":23,
+                 "name":"spawnPearl",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"objectName",
+                         "type":"string",
+                         "value":"pearl"
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":452.666666666667,
+                 "y":141
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -248,7 +302,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":21,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",
