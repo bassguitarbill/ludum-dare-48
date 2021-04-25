@@ -15,7 +15,6 @@ export default class GUI {
     this.drawHealthBar(ctx);
     this.drawPressureGauge(ctx);
     this.drawUpgrades(ctx);
-    this.drawVolumeControls(ctx);
   }
 
   drawHealthBar(ctx: CanvasRenderingContext2D) {
@@ -46,5 +45,4 @@ export default class GUI {
     GUI.upgradesSpritesheet.draw(ctx, ctx.canvas.width * 0.74, ctx.canvas.height - 200, 1, hasArmor ? 1 : 0)
     GUI.upgradesSpritesheet.draw(ctx, ctx.canvas.width * 0.85, ctx.canvas.height - 200, 2, hasFlashlight ? 1 : 0)
   }
-  drawVolumeControls(ctx: CanvasRenderingContext2D) {}
 }
