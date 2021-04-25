@@ -7,6 +7,7 @@ import Text from './Text.js';
 export default class GUI {
   static pressureGaugeSpritesheet: Spritesheet;
   static upgradesSpritesheet: Spritesheet;
+  static controlsImage: HTMLImageElement;
 
   commsText? : Text;
 
@@ -18,14 +19,16 @@ export default class GUI {
   static async load() {
     GUI.pressureGaugeSpritesheet = await Spritesheet.load('assets/images/pressure-gauge.png', 128, 128);
     GUI.upgradesSpritesheet = await Spritesheet.load('assets/images/upgrades.png', 128, 128);
+    await new Promise(res => { GUI.controlsImage = new Image(); GUI.controlsImage.src = 'assets/images/controls.png'; GUI.controlsImage.addEventListener('load', res)});
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     this.gobo.draw(ctx);
     this.drawHealthBar(ctx);
     this.drawPressureGauge(ctx);
-    this.drawUpgrades(ctx);
+    // this.drawUpgrades(ctx);
     this.drawComms(ctx);
+    this.drawControls(ctx);
   }
 
   drawHealthBar(ctx: CanvasRenderingContext2D) {
@@ -34,12 +37,12 @@ export default class GUI {
     const leftEdgeOfBar = canvasWidth * 0.03;
     const rightEdgeOfBar = canvasWidth * 0.5;
     const barLength = (rightEdgeOfBar - leftEdgeOfBar) * health;
-    ctx.fillStyle = 'grey';
-    ctx.fillRect(leftEdgeOfBar - 5, 5, rightEdgeOfBar - leftEdgeOfBar + 10, 20);
-    ctx.fillStyle = 'darkgrey';
-    ctx.fillRect(leftEdgeOfBar, 10, rightEdgeOfBar - leftEdgeOfBar, 11);
-    ctx.fillStyle = health > .5 ? 'lightgreen' : health > .2 ? 'yellow' : 'red';
-    ctx.fillRect(leftEdgeOfBar, 10, barLength, 10);
+    ctx.fillStyle = '#37364e';
+    ctx.fillRect(leftEdgeOfBar - 5, 25, rightEdgeOfBar - leftEdgeOfBar + 10, 40);
+    ctx.fillStyle = '#5b4a68';
+    ctx.fillRect(leftEdgeOfBar, 30, rightEdgeOfBar - leftEdgeOfBar, 30);
+    ctx.fillStyle = health > .5 ? '#6aae9d' : health > .2 ? '#f4e9d4' : '#ba4e7c';
+    ctx.fillRect(leftEdgeOfBar, 30, barLength, 30);
   }
 
   drawPressureGauge(ctx: CanvasRenderingContext2D) {
@@ -75,10 +78,17 @@ export default class GUI {
     const alpha = ctx.globalAlpha;
     ctx.globalAlpha = .9;
     ctx.fillStyle = '#f4e9d4';
-    ctx.fillRect((ctx.canvas.width * 0.1) - 10, ctx.canvas.height - 110, 500, 90);
-    this.commsText ||= new Text(new Vector2(ctx.canvas.width * 0.1, ctx.canvas.height - 100), 30, message);
+    ctx.fillRect((ctx.canvas.width * 0.02) - 10, ctx.canvas.height - 110, 500, 90);
+    this.commsText ||= new Text(new Vector2(ctx.canvas.width * 0.02, ctx.canvas.height - 100), 30, message);
     this.commsText.message = message;
     this.commsText.draw(ctx);
+    ctx.globalAlpha = alpha;
+  }
+
+  drawControls(ctx: CanvasRenderingContext2D) {
+    const alpha = ctx.globalAlpha;
+    ctx.globalAlpha = .8;
+    ctx.drawImage(GUI.controlsImage, ctx.canvas.width - 256, ctx.canvas.height - 64);
     ctx.globalAlpha = alpha;
   }
 }

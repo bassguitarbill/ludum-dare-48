@@ -52,8 +52,8 @@ export default class Player extends Entity {
 
   currentlyGrapsedItem: PickableObject | null = null;
 
-  healthPercentage = .5;
-  pressurePercentage = .5;
+  healthPercentage = 1.0;
+  pressurePercentage = 0.0;
   dangerousPressure = 0.40;
   pressureDamageFactor = 0.01;
 
