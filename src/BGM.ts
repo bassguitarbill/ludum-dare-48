@@ -1,19 +1,15 @@
+import { addAudioContextCallback } from "./Audio.js";
+
 export default class BGM {
   static async load(path: string) {
-    const audioElement = new Audio();
-    //await new Promise((res, _) => {
-      audioElement.src = path;
-    //  audioElement.addEventListener('load', res);
-    //});
-    const somebodyClicked = () => {
-      window.removeEventListener('click', somebodyClicked);
-      const audioCtx = new AudioContext();
+    addAudioContextCallback((audioCtx: AudioContext) => {
       const source = audioCtx.createMediaElementSource(audioElement);
       const gainNode = audioCtx.createGain();
       source.connect(gainNode).connect(audioCtx.destination);
       audioElement.play();
       audioElement.loop = true;
-    }
-    window.addEventListener('click', somebodyClicked);
+    })
+    const audioElement = new Audio();
+    audioElement.src = path;
   }
 }

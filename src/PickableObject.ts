@@ -2,6 +2,7 @@ import AABBHitbox from "./AABBHitbox.js";
 import Entity from "./Entity.js";
 import Game from "./Game.js";
 import { Vector2 } from "./math.js";
+import SFX from "./SFX.js";
 import Spritesheet from "./Spritesheet.js";
 
 export default class PickableObject extends Entity {
@@ -39,6 +40,7 @@ export default class PickableObject extends Entity {
     if (this.itemType === 2) {
       this.destroy();
       this.game.questManager.destroy(this);
+      SFX.play('destroy.wav');
     }
   }
   onRelease() {

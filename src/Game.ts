@@ -9,6 +9,7 @@ import MessageManager from "./MessageManager.js";
 import PickableObject from "./PickableObject.js";
 import Player from "./Player.js";
 import QuestManager from "./QuestManager.js";
+import SFX from "./SFX.js";
 import Text from "./Text.js";
 import TextEventManager from "./TextEventManager.js";
 import World from "./World.js";
@@ -53,6 +54,7 @@ export default class Game {
     await PickableObject.load();
     await GUI.load();
     await BGM.load('assets/audio/bgm.ogg');
+    await SFX.load();
     await Text.load();
     await Gobo.load();
     await Boat.load();

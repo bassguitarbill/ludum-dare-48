@@ -5,6 +5,7 @@ import Game from "./Game.js";
 import { Controls, isControlPressed } from "./Input.js";
 import { Vector2 } from "./math.js";
 import PickableObject from "./PickableObject.js";
+import SFX from "./SFX.js";
 import Spritesheet from "./Spritesheet.js";
 
 export default class Player extends Entity {
@@ -253,6 +254,10 @@ export default class Player extends Entity {
     }
     this.collisionNormal = normal;
     const cos = Math.cos(this.velocity.angle() - normal.angle());
+    if (cos < 0) {// Stop driving into the rocks
+      this.healthPercentage += cos * 0.005;
+      SFX.play('crash.wav');
+    } 
     if (cos < -0.01) this.velocity = new Vector2();
   }
 

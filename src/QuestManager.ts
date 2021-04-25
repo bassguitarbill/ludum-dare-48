@@ -1,6 +1,7 @@
 import Game from "./Game.js";
 import { Vector2 } from "./math.js";
 import PickableObject from "./PickableObject.js";
+import SFX from "./SFX.js";
 
 export default class QuestManager {
   timeUntilReminder = 30000;
@@ -53,6 +54,7 @@ const questSteps = [
   { task: 'retrieve', item: 1, message: 'You\'ve got it! Please bring it back to the boat!',
     reminder: 'Bring it back to the boat, please! Left side of the map, and at the surface!',
     onComplete: (game: Game) => {
+      SFX.play('pickup.wav');
       game.player.currentlyGrapsedItem?.destroy();
       game.player.currentlyGrapsedItem = null;
     }},
@@ -64,6 +66,7 @@ const questSteps = [
   { task: 'retrieve', item: 3, message: 'You found them! Bring them back to the boat and I\ll upgrade your armor',
     reminder: 'Where\'d you go with that gold? I\'m in about the center of the map',
     onComplete: (game: Game) => {
+      SFX.play('pickup.wav');
       game.player.currentlyGrapsedItem?.destroy();
       game.player.currentlyGrapsedItem = null;
       game.player.hasArmor = true;
@@ -75,6 +78,7 @@ const questSteps = [
   { task: 'retrieve', item: 0, message: 'Are you okay? Wow, that thing was gigantic! Bring the pearl back up and I\'ll fix your sub!',
     reminder: 'You\'re almost done! Just bring that Light orb back to the boat, okay?',
     onComplete: (game: Game) => {
+      SFX.play('pickup.wav');
       game.player.currentlyGrapsedItem?.destroy();
       game.player.currentlyGrapsedItem = null;
       game.messageManager.sendMessage('Thank you for playing my game, I hope you enjoyed it! Feel free to keep exploring!', 8);
