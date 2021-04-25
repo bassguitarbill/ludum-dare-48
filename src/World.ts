@@ -5,6 +5,7 @@ import AABBHitbox from "./AABBHitbox.js";
 import PickableObject from "./PickableObject.js";
 import Game from "./Game.js";
 import Boat from "./Boat.js";
+import Enemy from "./Enemy.js";
 
 export default class World {
   animationTimer = 0;
@@ -134,6 +135,9 @@ export default class World {
           break;
         case 'boat':
           new Boat(game, new Vector2(spawner.x, spawner.y));
+          break;
+        case 'enemy':
+          new Enemy(game, new Vector2(spawner.x, spawner.y), (spawner.properties.find(prop => prop.name === 'direction')?.value as number) || 0);
           break;
       }
     })

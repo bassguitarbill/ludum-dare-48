@@ -2,12 +2,14 @@ import BGM from "./BGM.js";
 import Boat from "./Boat.js";
 import Bubble from "./Bubble.js";
 import Debug from "./Debug.js";
+import Enemy from "./Enemy.js";
 import Entity from "./Entity.js";
 import Gobo from "./Gobo.js";
 import GUI from "./GUI.js";
 import MessageManager from "./MessageManager.js";
 import PickableObject from "./PickableObject.js";
 import Player from "./Player.js";
+import Projectile from "./Projectile.js";
 import QuestManager from "./QuestManager.js";
 import SFX from "./SFX.js";
 import Text from "./Text.js";
@@ -58,6 +60,8 @@ export default class Game {
     await Text.load();
     await Gobo.load();
     await Boat.load();
+    await Enemy.load();
+    await Projectile.load();
     return new Game(world);
   }
 

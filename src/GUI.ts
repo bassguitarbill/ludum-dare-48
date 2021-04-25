@@ -41,7 +41,7 @@ export default class GUI {
     ctx.fillRect(leftEdgeOfBar - 5, 25, rightEdgeOfBar - leftEdgeOfBar + 10, 40);
     ctx.fillStyle = '#5b4a68';
     ctx.fillRect(leftEdgeOfBar, 30, rightEdgeOfBar - leftEdgeOfBar, 30);
-    ctx.fillStyle = health > .5 ? '#6aae9d' : health > .2 ? '#f4e9d4' : '#ba4e7c';
+    ctx.fillStyle = health > .5 ? '#6aae9d' : health > .25 ? '#f4e9d4' : '#ba4e7c';
     ctx.fillRect(leftEdgeOfBar, 30, barLength, 30);
   }
 
