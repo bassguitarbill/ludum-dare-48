@@ -4,6 +4,7 @@ import Entity from "./Entity.js";
 import GUI from "./GUI.js";
 import Pearl from "./Pearl.js";
 import Player from "./Player.js";
+import Text from "./Text.js";
 import World from "./World.js";
 
 export default class Game {
@@ -18,6 +19,8 @@ export default class Game {
   readonly entities: Array<Entity> = [];
   readonly gui: GUI;
 
+  textToDisplay = "The quick brown fox jumps over the lazy dog! Isn't that amazing?";
+
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
     this.ctx = canvas.getContext('2d')!;
@@ -31,12 +34,13 @@ export default class Game {
   }
 
   static async load(): Promise<Game> {
-    const world = await World.loadInstance('maps/test-map.json');
+    const world = await World.loadInstance('maps/map1.json');
     await Player.load();
     await Bubble.load();
     await Pearl.load();
     await GUI.load();
     await BGM.load('assets/audio/bgm.ogg');
+    await Text.load();
     return new Game(world);
   }
 

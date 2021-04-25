@@ -1,9 +1,13 @@
 import Game from "./Game.js";
+import { Vector2 } from "./math.js";
 import Spritesheet from "./Spritesheet.js";
+import Text from './Text.js';
 
 export default class GUI {
   static pressureGaugeSpritesheet: Spritesheet;
   static upgradesSpritesheet: Spritesheet;
+
+  commsText? : Text;
   constructor(readonly game: Game){}
 
   static async load() {
@@ -15,6 +19,7 @@ export default class GUI {
     this.drawHealthBar(ctx);
     this.drawPressureGauge(ctx);
     this.drawUpgrades(ctx);
+    this.drawComms(ctx);
   }
 
   drawHealthBar(ctx: CanvasRenderingContext2D) {
@@ -44,5 +49,19 @@ export default class GUI {
     GUI.upgradesSpritesheet.draw(ctx, ctx.canvas.width * 0.63, ctx.canvas.height - 200, 0, hasClaw ? 1 : 0)
     GUI.upgradesSpritesheet.draw(ctx, ctx.canvas.width * 0.74, ctx.canvas.height - 200, 1, hasArmor ? 1 : 0)
     GUI.upgradesSpritesheet.draw(ctx, ctx.canvas.width * 0.85, ctx.canvas.height - 200, 2, hasFlashlight ? 1 : 0)
+  }
+
+  drawComms(ctx: CanvasRenderingContext2D) {
+    const message = this.game.textToDisplay;
+    if (!message) return;
+
+    const alpha = ctx.globalAlpha;
+    ctx.globalAlpha = .9;
+    ctx.fillStyle = '#f4e9d4';
+    ctx.fillRect(190, ctx.canvas.height - 110, 500, 90);
+    this.commsText ||= new Text(new Vector2(200, ctx.canvas.height - 100), 30, message);
+    this.commsText.message = message;
+    this.commsText.draw(ctx);
+    ctx.globalAlpha = alpha;
   }
 }
