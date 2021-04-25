@@ -20,7 +20,6 @@ export default class World {
     const eventsLayer = this.mapData.layers.find(l => l.name === 'events');
     if (!eventsLayer) throw 'No events layer in map data';
     this.eventsLayer = eventsLayer;
-    console.log(eventsLayer.objects.find(o => o.name === 'waterLevel'))
     this.waterLevel = eventsLayer.objects.find(o => o.name === 'waterLevel')?.y || 0;
   }
   
