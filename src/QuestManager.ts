@@ -76,10 +76,10 @@ const questSteps = [
       game.player.hasArmor = true;
       game.messageManager.sendMessage('Thanks! I\'m installing armor on your sub now! You\'ll be able to handle high pressures!', 8);
     }},
-  { task: 'obtain', item: 0, message: 'Okay, time to look for the last piece of treasure! It\'s the Light Orb! It\'s pretty deep down, probably on the right side of the map.',
+  { task: 'obtain', item: 0, message: 'Okay, time to look for the last piece of treasure! It\'s pretty deep down, on the right side of the map.',
     reminder: 'You should be able to see a little bit out of your sub, even in the darkness! Head to the bottom right of the map!',
     onComplete: (_: Game) => {}},
-  { task: 'retrieve', item: 0, message: 'Are you okay? Wow, that thing was gigantic! Bring the pearl back up and I\'ll fix your sub!',
+  { task: 'retrieve', item: 0, message: 'Are you okay? Wow, that was so many worms! Bring the pearl back up and I\'ll fix your sub!',
     reminder: 'You\'re almost done! Just bring that Light orb back to the boat, okay?',
     onComplete: (game: Game) => {
       SFX.play('pickup.wav');

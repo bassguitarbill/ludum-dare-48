@@ -13,8 +13,8 @@ export default class Enemy extends Entity {
   }
 
   emergence = 0;
-  lookRadiusSquared = 100 * 100;
-  aggroRadiusSquared = 60 * 60;
+  lookRadiusSquared = 150 * 150;
+  aggroRadiusSquared = 100 * 100;
 
   timer = 0;
   state = 'dormant';

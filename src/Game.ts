@@ -6,6 +6,8 @@ import Enemy from "./Enemy.js";
 import Entity from "./Entity.js";
 import Gobo from "./Gobo.js";
 import GUI from "./GUI.js";
+import { Controls, isControlPressed } from "./Input.js";
+import { Vector2 } from "./math.js";
 import MessageManager from "./MessageManager.js";
 import PickableObject from "./PickableObject.js";
 import Player from "./Player.js";
@@ -24,7 +26,7 @@ export default class Game {
     x: 0,
     y: 0,
   };
-  readonly player: Player;
+  public player: Player;
   readonly entities: Array<Entity> = [];
   readonly gui: GUI;
   readonly messageManager: MessageManager;
@@ -32,6 +34,7 @@ export default class Game {
   readonly questManager: QuestManager;
 
   isGameOver = false;
+  enableRToRespawn = false;
 
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
@@ -82,6 +85,12 @@ export default class Game {
     this.textEventManager.tick(dt);
     this.questManager.tick(dt);
 
+    if (this.enableRToRespawn && isControlPressed(Controls.RESPAWN)) {
+      this.player.destroy();
+      this.player = new Player(this, new Vector2(1240, 1080));
+      this.player.hasArmor = true;
+      this.isGameOver = false;
+    }
     this.scaleCamera();
     
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -109,5 +118,8 @@ export default class Game {
 
   gameOver() {
     this.isGameOver = true;
+    if (this.enableRToRespawn) {
+      this.messageManager.sendMessage('hit R to try again! hit r to try again! hit r to try again!', 999999999);
+    }
   }
 }
