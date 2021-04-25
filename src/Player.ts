@@ -56,7 +56,7 @@ export default class Player extends Entity {
   healthPercentage = 1.0;
   pressurePercentage = 0.0;
   dangerousPressure = 0.40;
-  pressureDamageFactor = 0.03;
+  pressureDamageFactor = 0.003;
 
   hasClaw = true;
   hasArmor = false;
