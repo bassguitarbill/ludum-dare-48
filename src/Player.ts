@@ -19,13 +19,13 @@ export default class Player extends Entity {
     new Vector2(18, 7),
   ];
   subHitboxBounds = [
-    [0, 2, 16, 13],
-    [2, 2, 16, 13],
-    [4, 2, 16, 13],
-    [4, 2, 16, 13],
-    [4, 2, 16, 13],
-    [4, 2, 16, 13],
-    [4, 2, 16, 13],
+    [1, 3, 15, 12],
+    [3, 3, 15, 12],
+    [5, 3, 15, 12],
+    [5, 3, 15, 12],
+    [5, 3, 15, 12],
+    [5, 3, 15, 12],
+    [5, 3, 15, 12],
   ];
   subHitboxes: Array<AABBHitbox>;
   clawHitbox: AABBHitbox;
@@ -85,7 +85,7 @@ export default class Player extends Entity {
   }
 
   setClawHitboxOffset() {
-    this.clawHitbox.offset = Vector2.sumOf(this.position, new Vector2(7.5, 8 + this.clawPosition))
+    this.clawHitbox.offset = Vector2.sumOf(this.position, new Vector2(7.5, 10 + this.clawPosition))
   }
 
   processInput() {

@@ -27,7 +27,7 @@ export default class Game {
   }
 
   static async load(): Promise<Game> {
-    const world = await World.loadInstance('maps/test-map.json');
+    const world = await World.loadInstance('maps/map1.json');
     await Player.load();
     await Bubble.load();
     await Pearl.load();
@@ -46,13 +46,20 @@ export default class Game {
     this.world.tick(dt);
     this.entities.forEach(e => e.tick(dt));
     this.player.tick(dt);
+
+    this.scaleCamera();
     
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.ctx.setTransform(this.camera.scale, 0, 0, this.camera.scale, this.camera.x, this.camera.y);
+    this.ctx.setTransform(this.camera.scale, 0, 0, this.camera.scale, this.camera.x * this.camera.scale, this.camera.y * this.camera.scale);
     this.world.draw(this.ctx);
     this.entities.forEach(e => e.draw(this.ctx));
     this.ctx.setTransform(1, 0, 0, 1, 0, 0)
     requestAnimationFrame(this.tick);
+  }
+
+  scaleCamera() {
+    this.camera.x = ((this.ctx.canvas.width/2)/this.camera.scale)-this.player.x;
+    this.camera.y = ((this.ctx.canvas.height/2)/this.camera.scale)-this.player.y;
   }
 
   addEntity(entity: Entity) {
