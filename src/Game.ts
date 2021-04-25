@@ -20,7 +20,7 @@ export default class Game {
   timestamp: number = 0;
   ctx: CanvasRenderingContext2D;
   camera = {
-    scale: 4,
+    scale: 2.5,
     x: 0,
     y: 0,
   };
@@ -30,6 +30,8 @@ export default class Game {
   readonly messageManager: MessageManager;
   readonly textEventManager: TextEventManager;
   readonly questManager: QuestManager;
+
+  isGameOver = false;
 
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
@@ -103,5 +105,9 @@ export default class Game {
   removeEntity(entity: Entity) {
     const index = this.entities.findIndex(e => e === entity)
     if (index > -1) this.entities.splice(index, 1);
+  }
+
+  gameOver() {
+    this.isGameOver = true;
   }
 }

@@ -35,7 +35,7 @@ export default class Player extends Entity {
   animationTimer = 0;
 
   velocity = new Vector2();
-  acceleration = 0.00010;
+  acceleration = 0.00018;
 
   thrustDirection = 1;
   thrustTarget = 1;
@@ -79,6 +79,12 @@ export default class Player extends Entity {
   }
 
   tick(dt: number) {
+    if (this.game.isGameOver) return;
+    if (this.healthPercentage < 0) {
+      SFX.play('explosion.wav');
+      this.game.gameOver();
+      return;
+    }
     this.animationTimer += dt;
 
     this.setPressurePercentage();
@@ -125,8 +131,8 @@ export default class Player extends Entity {
       if (isControlPressed(Controls.LEFT)) this.thrustTarget = -1;
       if (isControlPressed(Controls.RIGHT)) this.thrustTarget = 1;
 
-      if (isControlPressed(Controls.UP)) this.vertical = -0.6;
-      else if (isControlPressed(Controls.DOWN)) this.vertical = 0.6;
+      if (isControlPressed(Controls.UP)) this.vertical = -1;
+      else if (isControlPressed(Controls.DOWN)) this.vertical = 1;
       else this.vertical = 0;
 
       if (isControlPressed(Controls.CLAW_EXTEND)) {

@@ -81,7 +81,7 @@ export default class Enemy extends Entity {
   fireProjectile() {
     const directionVector = new Vector2(this.game.player.x - this.x, this.game.player.y - this.y).times(0.001);
     //const direction = directionVector.angle();
-    new Projectile(this.game, this.position.clone(), directionVector);
+    new Projectile(this.game, Vector2.sumOf(this.position, new Vector2(4, 4)), directionVector);
     SFX.play('wormyell.wav');
   }
 }

@@ -8,6 +8,7 @@ export default class GUI {
   static pressureGaugeSpritesheet: Spritesheet;
   static upgradesSpritesheet: Spritesheet;
   static controlsImage: HTMLImageElement;
+  static gameOverImage: HTMLImageElement;
 
   commsText? : Text;
 
@@ -20,6 +21,7 @@ export default class GUI {
     GUI.pressureGaugeSpritesheet = await Spritesheet.load('assets/images/pressure-gauge.png', 128, 128);
     GUI.upgradesSpritesheet = await Spritesheet.load('assets/images/upgrades.png', 128, 128);
     await new Promise(res => { GUI.controlsImage = new Image(); GUI.controlsImage.src = 'assets/images/controls.png'; GUI.controlsImage.addEventListener('load', res)});
+    await new Promise(res => { GUI.gameOverImage = new Image(); GUI.gameOverImage.src = 'assets/images/gameover.png'; GUI.gameOverImage.addEventListener('load', res)});
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -29,6 +31,7 @@ export default class GUI {
     // this.drawUpgrades(ctx);
     this.drawComms(ctx);
     this.drawControls(ctx);
+    this.drawGameOver(ctx);
   }
 
   drawHealthBar(ctx: CanvasRenderingContext2D) {
@@ -90,5 +93,11 @@ export default class GUI {
     ctx.globalAlpha = .8;
     ctx.drawImage(GUI.controlsImage, ctx.canvas.width - 256, ctx.canvas.height - 64);
     ctx.globalAlpha = alpha;
+  }
+  
+  drawGameOver(ctx: CanvasRenderingContext2D) {
+    if (!this.game.isGameOver) return;
+    const image = GUI.gameOverImage;
+    ctx.drawImage(image, (ctx.canvas.width / 2) - (image.width / 2) , (ctx.canvas.height / 2) - (image.height / 2));
   }
 }
