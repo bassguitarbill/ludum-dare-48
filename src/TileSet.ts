@@ -7,7 +7,7 @@ class TileSet {
     const image = new Image();
     await new Promise((res, _) => {
       image.onload = () => res(null);
-      image.src = tileSetData.image;
+      image.src = 'assets/' + tileSetData.image;
     });
     return new TileSet(fileName, firstgid, tileSetData, image);
   }
