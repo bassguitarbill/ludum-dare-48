@@ -65,8 +65,6 @@ export default class Player extends Entity {
   depth = 10;
   maxDepth = 100;
 
-  collisionNormal = new Vector2();
-
   constructor(readonly game: Game, readonly position: Vector2) {
     super(game, position);
     this.subHitboxes = this.generateSubHitboxes();
@@ -201,13 +199,6 @@ export default class Player extends Entity {
     Player.spritesheet.draw(ctx, this.x, this.y, this.getTurnIndex(), 0);
     if ((window as any).debug) {
       this.subHitboxes[this.getTurnIndex()].draw(ctx);
-      if (!this.collisionNormal.isZeroVector()) {
-        ctx.strokeStyle = 'white';
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.collisionNormal.times(20).x + this.x, this.collisionNormal.times(20).y + this.y);
-        ctx.stroke();
-      }
     }
   }
 
@@ -244,7 +235,6 @@ export default class Player extends Entity {
   }
 
   checkCollision() {
-    this.collisionNormal = new Vector2();
     const collides = this.game.world.collides(this.getCurrentSubHitbox());
     if (!collides) return;
     const collisionData = this.game.world.colliderData;
@@ -259,13 +249,12 @@ export default class Player extends Entity {
         }
       }
     }
-    this.collisionNormal = normal;
     const cos = Math.cos(this.velocity.angle() - normal.angle());
-    if (cos < 0) {// Stop driving into the rocks
-      this.healthPercentage += cos * 0.003;
+    if (cos < -0.01) {// Stop driving into the rocks
+      this.healthPercentage += cos * 0.03;
       SFX.play('crash.wav');
-    } 
-    if (cos < -0.01) this.velocity = new Vector2();
+      this.velocity = normal.times(0.15);
+    }
   }
 
   openClaw() {
