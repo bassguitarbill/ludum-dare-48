@@ -81,7 +81,7 @@ export default class GUI {
 
     const alpha = ctx.globalAlpha;
     ctx.globalAlpha = .9;
-    ctx.fillStyle = '#f4e9d4';
+    ctx.fillStyle = this.game.messageManager.messageFlash ? '#9e8e91' : '#f4e9d4';
     ctx.fillRect((ctx.canvas.width * 0.02) - 10, ctx.canvas.height - 110, 500, 90);
     this.commsText ||= new Text(new Vector2(ctx.canvas.width * 0.02, ctx.canvas.height - 100), 30, message);
     this.commsText.message = message;
