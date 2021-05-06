@@ -34,6 +34,7 @@ export default class GUI {
     this.drawGameOver(ctx);
     this.drawFrameRate(ctx);
     this.drawMinimap(ctx);
+    this.drawSpeedrunTimer(ctx);
   }
 
   drawHealthBar(ctx: CanvasRenderingContext2D) {
@@ -129,5 +130,11 @@ export default class GUI {
     }
 
     ctx.restore();
+  }
+  
+  drawSpeedrunTimer(ctx: CanvasRenderingContext2D) {
+    ctx.fillStyle = 'white';
+    ctx.font = '30px sans-serif';
+    ctx.fillText(new Date(this.game.speedrunTimer).toISOString().slice(14, -2), 3 * ctx.canvas.width / 5, 40);
   }
 }

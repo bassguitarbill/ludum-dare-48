@@ -39,6 +39,9 @@ export default class Game {
   enableRToRespawn = false;
   public framerate = 0;
 
+  public speedrunTimer = 0;
+  public speedrunTimerStopped = false;
+
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
     this.ctx = canvas.getContext('2d')!;
@@ -83,6 +86,7 @@ export default class Game {
   tick(timestamp: number) {
     const dt = timestamp - this.timestamp;
     this.timestamp = timestamp;
+    if (!this.speedrunTimerStopped) this.speedrunTimer = this.timestamp;
     this.framerate = 1000 / dt;
     this.world.tick(dt);
     this.entities.forEach(e => e.tick(dt));
