@@ -90,6 +90,7 @@ export default class Game {
     this.messageManager.tick(dt);
     this.textEventManager.tick(dt);
     this.questManager.tick(dt);
+    this.minimap.tick(dt);
 
     if (this.enableRToRespawn && isControlPressed(Controls.RESPAWN)) {
       this.player.destroy();
