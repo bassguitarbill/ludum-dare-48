@@ -9,6 +9,7 @@ import GUI from "./GUI.js";
 import { Controls, isControlPressed } from "./Input.js";
 import { Vector2 } from "./math.js";
 import MessageManager from "./MessageManager.js";
+import Minimap from "./Minimap.js";
 import PickableObject from "./PickableObject.js";
 import Player from "./Player.js";
 import Projectile from "./Projectile.js";
@@ -22,7 +23,7 @@ export default class Game {
   timestamp: number = 0;
   ctx: CanvasRenderingContext2D;
   camera = {
-    scale: 2.5,
+    scale: 3,
     x: 0,
     y: 0,
   };
@@ -32,6 +33,7 @@ export default class Game {
   readonly messageManager: MessageManager;
   readonly textEventManager: TextEventManager;
   readonly questManager: QuestManager;
+  readonly minimap: Minimap;
 
   isGameOver = false;
   enableRToRespawn = false;
@@ -53,6 +55,8 @@ export default class Game {
     this.textEventManager = new TextEventManager(this);
 
     this.questManager = new QuestManager(this);
+
+    this.minimap = new Minimap(this);
   }
 
   static async load(): Promise<Game> {
@@ -86,6 +90,7 @@ export default class Game {
     this.messageManager.tick(dt);
     this.textEventManager.tick(dt);
     this.questManager.tick(dt);
+    this.minimap.tick(dt);
 
     if (this.enableRToRespawn && isControlPressed(Controls.RESPAWN)) {
       this.player.destroy();

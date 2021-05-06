@@ -157,6 +157,26 @@ export default class World {
     }
     return collides;
   }
+
+  drawMinimap(ctx: CanvasRenderingContext2D) {
+    const layer = this.terrainLayer;
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, layer.width + 2, layer.height + 2);
+
+    ctx.fillStyle = '#6aae9d';
+    ctx.fillRect(1, 1, layer.width, layer.height);
+    
+    for (let x=0; x < layer.width; x++) {
+      for (let y=0; y < layer.height; y++) {
+        const tileIndex = layer.data[(layer.width * y) + x];
+        if (tileIndex === 0) continue; // Empty tile
+
+        ctx.fillStyle = '#5b4a68'; // d0baa9
+        ctx.fillRect(x + 1, y + 1, 1, 1);
+      }
+    }
+  }
 }
 
 interface TileMapData {

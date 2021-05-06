@@ -33,6 +33,7 @@ export default class GUI {
     this.drawControls(ctx);
     this.drawGameOver(ctx);
     this.drawFrameRate(ctx);
+    this.drawMinimap(ctx);
   }
 
   drawHealthBar(ctx: CanvasRenderingContext2D) {
@@ -106,5 +107,27 @@ export default class GUI {
     if (!(window as any).debug) return;
     ctx.fillStyle = 'black';
     ctx.fillText(String(this.game.framerate), 20, 20)
+  }
+
+  drawMinimap(ctx: CanvasRenderingContext2D) {
+    ctx.save();
+    ctx.globalAlpha = .8;
+
+    ctx.translate(25, ctx.canvas.height * 0.1);
+    ctx.scale(3, 3);
+
+    const { minimap } = this.game;
+    const { width, height } = minimap.mapImage;
+    ctx.drawImage(minimap.mapImage, 0,0, width, height);
+
+    if(minimap.flash) {
+      minimap.getPoints().forEach(p => {
+        const { x, y } = p;
+        ctx.fillStyle = p.color;
+        ctx.fillRect((x / 16), (y / 16), 2, 2);
+      });
+    }
+
+    ctx.restore();
   }
 }
