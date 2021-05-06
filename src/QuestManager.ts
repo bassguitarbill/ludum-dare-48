@@ -86,5 +86,6 @@ const questSteps = [
       game.player.currentlyGrapsedItem?.destroy();
       game.player.currentlyGrapsedItem = null;
       game.messageManager.sendMessage('Thank you for playing my game, I hope you enjoyed it! Feel free to keep exploring!', 8);
+      game.speedrunTimerStopped = true;
     }},
 ]
