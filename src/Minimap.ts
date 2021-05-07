@@ -35,23 +35,20 @@ export default class Minimap {
     const quest = this.game.questManager.currentQuest;
     if (!quest) return points;
 
-    switch(quest.task) {
-      case 'retrieve':
-        const boat = this.game.entities.filter(e => e instanceof Boat);
-        boat.forEach(b => {
-          const { x, y } = b;
-          points.push({ x, y, color: '#fff' });
-        });
-        break;
-      case 'obtain':
-      case 'destroy':
-        const items = this.game.entities.filter(e => e instanceof PickableObject && e.itemType === quest.item);
-        items.forEach(i => {
-          const { x, y } = i;
-          points.push({ x, y, color: '#fff' });
-        });
-        break;
+    const items = this.game.entities.filter(e => e instanceof PickableObject && e.itemType === quest.item);
+    items.forEach(i => {
+      const { x, y } = i;
+      points.push({ x, y, color: '#fff' });
+    });
+
+    if (quest.task === 'retrieve') {
+      const boat = this.game.entities.filter(e => e instanceof Boat);
+      boat.forEach(b => {
+        const { x, y } = b;
+        points.push({ x, y, color: '#fff' });
+      });
     }
+    
     return points;
   }
 }

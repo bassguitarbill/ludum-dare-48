@@ -7,7 +7,6 @@ import Entity from "./Entity.js";
 import Gobo from "./Gobo.js";
 import GUI from "./GUI.js";
 import { Controls, isControlPressed } from "./Input.js";
-import { Vector2 } from "./math.js";
 import MessageManager from "./MessageManager.js";
 import Minimap from "./Minimap.js";
 import PickableObject from "./PickableObject.js";
@@ -96,10 +95,11 @@ export default class Game {
     this.questManager.tick(dt);
     this.minimap.tick(dt);
 
-    if (this.enableRToRespawn && isControlPressed(Controls.RESPAWN)) {
+    if (isControlPressed(Controls.RESPAWN)) {
       this.player.destroy();
-      this.player = new Player(this, new Vector2(1240, 1080));
-      this.player.hasArmor = true;
+      const { hasArmor } = this.player;
+      this.player = new Player(this, this.world.getPlayerSpawnLocation());
+      this.player.hasArmor = hasArmor;
       this.isGameOver = false;
     }
     this.scaleCamera();
