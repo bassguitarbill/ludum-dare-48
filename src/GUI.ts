@@ -9,6 +9,7 @@ export default class GUI {
   static upgradesSpritesheet: Spritesheet;
   static controlsImage: HTMLImageElement;
   static gameOverImage: HTMLImageElement;
+  static pausedImage: HTMLImageElement;
   static respawnText: Spritesheet;
 
   commsText? : Text;
@@ -23,6 +24,7 @@ export default class GUI {
     GUI.upgradesSpritesheet = await Spritesheet.load('assets/images/upgrades.png', 128, 128);
     await new Promise(res => { GUI.controlsImage = new Image(); GUI.controlsImage.src = 'assets/images/controls.png'; GUI.controlsImage.addEventListener('load', res)});
     await new Promise(res => { GUI.gameOverImage = new Image(); GUI.gameOverImage.src = 'assets/images/gameover.png'; GUI.gameOverImage.addEventListener('load', res)});
+    await new Promise(res => { GUI.pausedImage = new Image(); GUI.pausedImage.src = 'assets/images/paused.png'; GUI.pausedImage.addEventListener('load', res)});
     GUI.respawnText = await Spritesheet.load('assets/images/respawn-text.png', 252, 44);
   }
 
@@ -34,6 +36,7 @@ export default class GUI {
     this.drawComms(ctx);
     this.drawControls(ctx);
     this.drawGameOver(ctx);
+    this.drawPausedImage(ctx);
     this.drawFrameRate(ctx);
     this.drawMinimap(ctx);
     this.drawSpeedrunTimer(ctx);
@@ -107,6 +110,12 @@ export default class GUI {
     respawnText.draw(ctx, (ctx.canvas.width / 2) - (respawnText.width / 2) , (ctx.canvas.height / 2) + (gameOverImage.height / 2) + 50, 0, Math.floor(this.game.timestamp / 700) % 2);
   }
 
+  drawPausedImage(ctx: CanvasRenderingContext2D) {
+    if (!this.game.isPaused) return;
+    const pausedImage = GUI.pausedImage;
+    ctx.drawImage(pausedImage, (ctx.canvas.width / 2) - (pausedImage.width / 2) , (ctx.canvas.height / 2) - (pausedImage.height / 2));
+  }
+
   drawFrameRate(ctx: CanvasRenderingContext2D) {
     if (!(window as any).debug) return;
     ctx.fillStyle = 'black';
@@ -123,6 +132,7 @@ export default class GUI {
     const { minimap } = this.game;
     const { width, height } = minimap.mapImage;
     ctx.drawImage(minimap.mapImage, 0,0, width, height);
+    console.log(ctx.globalAlpha);
 
     if(minimap.flash) {
       minimap.getPoints().forEach(p => {

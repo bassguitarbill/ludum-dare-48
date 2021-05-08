@@ -118,14 +118,14 @@ export default class Game {
 
 
       this.camera.moveCamera(this.ctx);
-      
-      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-      this.camera.scaleCanvas(this.ctx);
-      this.world.draw(this.ctx);
-      this.entities.forEach(e => e.draw(this.ctx));
-      this.ctx.setTransform(1, 0, 0, 1, 0, 0)
-      this.gui.draw(this.ctx);
     }
+      
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.camera.scaleCanvas(this.ctx);
+    this.world.draw(this.ctx);
+    this.entities.forEach(e => e.draw(this.ctx));
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.gui.draw(this.ctx);
     
     requestAnimationFrame(this.tick);
   }
