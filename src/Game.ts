@@ -5,7 +5,6 @@ import Camera from "./Camera.js";
 import Debug from "./Debug.js";
 import Enemy from "./Enemy.js";
 import Entity from "./Entity.js";
-import Gobo from "./Gobo.js";
 import GUI from "./GUI.js";
 import { Controls, isControlPressed } from "./Input.js";
 import MessageManager from "./MessageManager.js";
@@ -68,7 +67,6 @@ export default class Game {
     await BGM.load('assets/audio/bgm.ogg');
     await SFX.load();
     await Text.load();
-    await Gobo.load();
     await Boat.load();
     await Enemy.load();
     await Projectile.load();
