@@ -6,7 +6,8 @@ enum Controls {
   THRUST,
   CLAW_EXTEND,
   CLAW_RELEASE,
-  RESPAWN
+  RESPAWN,
+  PAUSE,
 }
 
 const keyboardMap: { [key: string]: Controls} = {
@@ -26,6 +27,8 @@ const keyboardMap: { [key: string]: Controls} = {
   'x': Controls.CLAW_RELEASE,
 
   'r': Controls.RESPAWN,
+
+  'p': Controls.PAUSE,
 }
 
 const controlMap = {
@@ -37,6 +40,7 @@ const controlMap = {
   [Controls.CLAW_EXTEND]: ['z'],
   [Controls.CLAW_RELEASE]: ['x'],
   [Controls.RESPAWN]: ['r'],
+  [Controls.PAUSE]: ['p'],
 }
 
 const currentlyPressedKeys: {[key: string]: boolean} = {};
