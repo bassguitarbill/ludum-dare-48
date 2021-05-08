@@ -7,3 +7,5 @@ Music was created using Bosca Ceoil: https://boscaceoil.net
 Sound was created with BFXR: http://www.bfxr.net
 
 Art was created using Aseprite: https://www.aseprite.org and GIMP: https://www.gimp.org
+
+Title screen font is Kenney Bold: https://www.kenney.nl

@@ -20,6 +20,7 @@ import World from "./World.js";
 
 export default class Game {
   timestamp: number = 0;
+  initialTimestamp: number = 0;
   ctx: CanvasRenderingContext2D;
   public player: Player;
   readonly entities: Array<Entity> = [];
@@ -74,14 +75,14 @@ export default class Game {
   }
 
   run() {
-    this.timestamp = 0;
     requestAnimationFrame(this.tick);
   }
 
   tick(timestamp: number) {
+    if(this.initialTimestamp === 0) this.initialTimestamp = timestamp;
     const dt = timestamp - this.timestamp;
     this.timestamp = timestamp;
-    if (!this.speedrunTimerStopped) this.speedrunTimer = this.timestamp;
+    if (!this.speedrunTimerStopped) this.speedrunTimer = this.timestamp - this.initialTimestamp;
     this.framerate = 1000 / dt;
     this.world.tick(dt);
     this.entities.forEach(e => e.tick(dt));

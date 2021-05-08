@@ -1,4 +1,4 @@
-import Game from "./Game.js";
+import TitleScreen from "./TitleScreen.js";
 
 let canvas: HTMLCanvasElement;
 
@@ -7,9 +7,8 @@ window.addEventListener('load', async () => {
   document.body.appendChild(canvas);
   sizeCanvas();
 
-  const game = await Game.load();
-  (window as any).game = game;
-  game.run();
+  await TitleScreen.load();
+  new TitleScreen().run();
 });
 
 function sizeCanvas() {
