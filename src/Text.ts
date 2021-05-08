@@ -11,6 +11,8 @@ export default class Text {
     '!':27, '?': 28, '\'': 29, ',': 30, '.': 31, ' ': 0
   }
 
+  static textImages: {[key in string]: HTMLImageElement} = {};
+
   static async load() {
     Text.fontSpritesheet = await Spritesheet.load('assets/images/alphabet.png', 16, 16);
   }
@@ -18,13 +20,27 @@ export default class Text {
   constructor(readonly position: Vector2, readonly columns: number, public message: string) {};
 
   draw(ctx: CanvasRenderingContext2D) {
-    for (let i = 0; i < this.message.length; i++) {
-      const char = this.message.charAt(i).toLowerCase();
-      const charIndex = Text.fontMap[char];
-      if(!charIndex) continue;
-      const charPositionX = (i % this.columns) * 16;
-      const charPositionY = Math.floor(i / this.columns) * 18;
-      Text.fontSpritesheet.draw(ctx, charPositionX + this.position.x, charPositionY + this.position.y, charIndex, 0);
+    let savedImage = Text.textImages[this.message];
+    if (!savedImage) {
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = this.columns * 16;
+      canvas.height = (Math.floor(this.message.length / this.columns) + 1) * 18;
+      const ctx = canvas.getContext('2d')!;
+
+      for (let i = 0; i < this.message.length; i++) {
+        const char = this.message.charAt(i).toLowerCase();
+        const charIndex = Text.fontMap[char];
+        if(!charIndex) continue;
+        const charPositionX = (i % this.columns) * 16;
+        const charPositionY = Math.floor(i / this.columns) * 18;
+        Text.fontSpritesheet.draw(ctx, charPositionX, charPositionY, charIndex, 0);
+      }
+
+      savedImage = new Image();
+      savedImage.src = canvas.toDataURL();
+      Text.textImages[this.message] = savedImage;
     }
+    ctx.drawImage(savedImage, this.position.x, this.position.y);
   }
 }
