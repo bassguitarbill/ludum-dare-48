@@ -38,6 +38,9 @@ export default class Game {
   public speedrunTimer = 0;
   public speedrunTimerStopped = false;
 
+  isPaused = false;
+  isHoldingPause = false;
+
   constructor(readonly world: World) {
     const canvas = document.querySelector('canvas')!;
     this.ctx = canvas.getContext('2d')!;
@@ -83,31 +86,47 @@ export default class Game {
     let dt = timestamp - this.timestamp;
     if (dt > 500) dt = 500; // clamp this to keep everything from falling through the floor!
     this.timestamp = timestamp;
-    if (!this.speedrunTimerStopped) this.speedrunTimer = this.timestamp - this.initialTimestamp;
-    this.framerate = 1000 / dt;
-    this.world.tick(dt);
-    this.entities.forEach(e => e.tick(dt));
-    this.player.tick(dt);
-    this.messageManager.tick(dt);
-    this.textEventManager.tick(dt);
-    this.questManager.tick(dt);
-    this.minimap.tick(dt);
+    //if (!this.speedrunTimerStopped) this.speedrunTimer = this.timestamp - this.initialTimestamp;
 
-    if (isControlPressed(Controls.RESPAWN)) {
-      this.player.destroy();
-      const { hasArmor } = this.player;
-      this.player = new Player(this, this.world.getPlayerSpawnLocation());
-      this.player.hasArmor = hasArmor;
-      this.isGameOver = false;
+    if (isControlPressed(Controls.PAUSE)) {
+      if (!this.isHoldingPause) {
+        this.isPaused = !this.isPaused;
+      }
+      this.isHoldingPause = true;
+    } else {
+      this.isHoldingPause = false;
     }
-    this.camera.moveCamera(this.ctx);
+
+    if (!this.isPaused) {
+      if (!this.speedrunTimerStopped) this.speedrunTimer += dt;
+      this.framerate = 1000 / dt;
+      this.world.tick(dt);
+      this.entities.forEach(e => e.tick(dt));
+      this.player.tick(dt);
+      this.messageManager.tick(dt);
+      this.textEventManager.tick(dt);
+      this.questManager.tick(dt);
+      this.minimap.tick(dt);
+
+      if (isControlPressed(Controls.RESPAWN)) {
+        this.player.destroy();
+        const { hasArmor } = this.player;
+        this.player = new Player(this, this.world.getPlayerSpawnLocation());
+        this.player.hasArmor = hasArmor;
+        this.isGameOver = false;
+      }
+
+
+      this.camera.moveCamera(this.ctx);
+      
+      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      this.camera.scaleCanvas(this.ctx);
+      this.world.draw(this.ctx);
+      this.entities.forEach(e => e.draw(this.ctx));
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+      this.gui.draw(this.ctx);
+    }
     
-    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.camera.scaleCanvas(this.ctx);
-    this.world.draw(this.ctx);
-    this.entities.forEach(e => e.draw(this.ctx));
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
-    this.gui.draw(this.ctx);
     requestAnimationFrame(this.tick);
   }
 
