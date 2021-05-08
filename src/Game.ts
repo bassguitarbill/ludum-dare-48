@@ -1,10 +1,10 @@
 import BGM from "./BGM.js";
 import Boat from "./Boat.js";
 import Bubble from "./Bubble.js";
+import Camera from "./Camera.js";
 import Debug from "./Debug.js";
 import Enemy from "./Enemy.js";
 import Entity from "./Entity.js";
-import Gobo from "./Gobo.js";
 import GUI from "./GUI.js";
 import { Controls, isControlPressed } from "./Input.js";
 import MessageManager from "./MessageManager.js";
@@ -21,13 +21,9 @@ import World from "./World.js";
 export default class Game {
   timestamp: number = 0;
   ctx: CanvasRenderingContext2D;
-  camera = {
-    scale: 3,
-    x: 0,
-    y: 0,
-  };
   public player: Player;
   readonly entities: Array<Entity> = [];
+  readonly camera: Camera;
   readonly gui: GUI;
   readonly messageManager: MessageManager;
   readonly textEventManager: TextEventManager;
@@ -50,6 +46,7 @@ export default class Game {
     this.player = new Player(this, world.getPlayerSpawnLocation())
     this.world.spawnObjects(this);
 
+    this.camera = new Camera(this);
     this.gui = new GUI(this);
     new Debug(this);
     this.messageManager = new MessageManager();
@@ -70,7 +67,6 @@ export default class Game {
     await BGM.load('assets/audio/bgm.ogg');
     await SFX.load();
     await Text.load();
-    await Gobo.load();
     await Boat.load();
     await Enemy.load();
     await Projectile.load();
@@ -102,20 +98,15 @@ export default class Game {
       this.player.hasArmor = hasArmor;
       this.isGameOver = false;
     }
-    this.scaleCamera();
+    this.camera.moveCamera(this.ctx);
     
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.ctx.setTransform(this.camera.scale, 0, 0, this.camera.scale, this.camera.x * this.camera.scale, this.camera.y * this.camera.scale);
+    this.camera.scaleCanvas(this.ctx);
     this.world.draw(this.ctx);
     this.entities.forEach(e => e.draw(this.ctx));
     this.ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.gui.draw(this.ctx);
     requestAnimationFrame(this.tick);
-  }
-
-  scaleCamera() {
-    this.camera.x = ((this.ctx.canvas.width/2)/this.camera.scale)-this.player.x;
-    this.camera.y = ((this.ctx.canvas.height/2)/this.camera.scale)-this.player.y;
   }
 
   addEntity(entity: Entity) {

@@ -2,14 +2,8 @@ import Game from "./Game.js";
 import { Vector2 } from "./math.js";
 
 export default class Gobo {
-  static image: HTMLImageElement;
-  static async load() {
-    Gobo.image = new Image();
-    await new Promise(res => {
-      Gobo.image.src = 'assets/images/gobo.png';
-      Gobo.image.addEventListener('load', res);
-    })
-  }
+  readonly innerWidth = 60;
+  readonly outerWidth = 100;
 
   constructor(readonly game: Game){}
 
@@ -33,8 +27,18 @@ export default class Gobo {
       if (ctx.globalAlpha > alphaFactor) ctx.globalAlpha = alphaFactor;
     }
 
-   
-    ctx.drawImage(Gobo.image, 0 ,0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = this.createRadialGradient(ctx);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
     ctx.globalAlpha = alpha;
+  }
+
+  createRadialGradient(ctx: CanvasRenderingContext2D) {
+    const centerX = (ctx.canvas.width / 2) + (8 * this.game.camera.scale) + (this.game.camera.cameraOffsetX * this.game.camera.scale);
+    const centerY = (ctx.canvas.height / 2) + (8 * this.game.camera.scale) + (this.game.camera.cameraOffsetY * this.game.camera.scale);
+    const gradient = ctx.createRadialGradient(centerX, centerY, this.innerWidth, centerX, centerY, this.outerWidth);
+    gradient.addColorStop(1, 'black');
+    gradient.addColorStop(0, 'transparent');
+    return gradient;
   }
 }
