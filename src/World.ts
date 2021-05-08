@@ -15,6 +15,9 @@ export default class World {
   terrainLayer: MapDataLayer;
   eventsLayer: MapDataLayer;
 
+  terrainLayerImage: HTMLImageElement;
+  doodadLayerImage: HTMLImageElement;
+
   colliderData: Array<Array<number>> = [];
   checkingTheseTiles: Array<number> = [];
   constructor(readonly mapData: TileMapData, readonly tileSets: Array<TileSet>) {
@@ -27,6 +30,9 @@ export default class World {
     this.waterLevel = eventsLayer.objects.find(o => o.name === 'waterLevel')?.y || 0;
     this.darknessLevel = eventsLayer.objects.find(o => o.name === 'darknessLevel')?.y || 0;
     this.maxDarknessLevel = eventsLayer.objects.find(o => o.name === 'maxDarknessLevel')?.y || 0;
+
+    this.terrainLayerImage = this.generateTerrainLayerImage();
+    this.doodadLayerImage = this.generateDoodadLayerImage();
   }
   
   static async loadInstance(mapFilePath: string): Promise<World> {
@@ -53,24 +59,12 @@ export default class World {
     ctx.fillRect(0, this.waterLevel, this.mapData.width * this.mapData.tilewidth, (this.mapData.height * this.mapData.tileheight) - this.waterLevel);
 
     if(!this.mapData) return;
-    const terrainLayer = this.mapData.layers.find(l => l.name === 'terrain');
-    if (terrainLayer) this.drawLayer(ctx, terrainLayer, this.tileSets[0]);
-
-    const doodadLayer = this.mapData.layers.find(l => l.name === 'doodads');
-    if (doodadLayer) this.drawLayer(ctx, doodadLayer, this.tileSets[1]);
-
-    /* ctx.fillStyle = "red"
-    for (let x=0; x<this.colliderData.length; x++) {
-      for (let y=0; y<this.colliderData[x].length; y++) {
-        if (this.colliderData[x][y]) {
-          ctx.fillRect(x * 20, y*20, 20, 20)
-        }
-      }
-    }*/
+    ctx.drawImage(this.terrainLayerImage, 0, 0);
+    ctx.drawImage(this.doodadLayerImage, 0, 0);
   }
 
   drawLayer(ctx: CanvasRenderingContext2D, layer: MapDataLayer, tileset: TileSet) {
-    //const tileset = this.tileSets[0];
+    
     const tilesetData = tileset.tileSetData!;
     const image = tileset.image;
     const columns = tilesetData.columns;
@@ -176,6 +170,33 @@ export default class World {
         ctx.fillRect(x + 1, y + 1, 1, 1);
       }
     }
+  }
+
+  generateTerrainLayerImage(): HTMLImageElement {
+    const canvas = document.createElement('canvas');
+    canvas.width = this.mapData.width * this.mapData.tilewidth;
+    canvas.height = this.mapData.height * this.mapData.tileheight;
+    const ctx = canvas.getContext('2d')!;
+    
+    this.drawLayer(ctx, this.terrainLayer, this.tileSets[0]);
+    
+    const image = new Image();
+    image.src = canvas.toDataURL();
+    return image;
+  }
+
+  generateDoodadLayerImage(): HTMLImageElement {
+    const canvas = document.createElement('canvas');
+    canvas.width = this.mapData.width * this.mapData.tilewidth;
+    canvas.height = this.mapData.height * this.mapData.tileheight;
+    const ctx = canvas.getContext('2d')!;
+    
+    const doodadLayer = this.mapData.layers.find(l => l.name === 'doodads')!;
+    this.drawLayer(ctx, doodadLayer, this.tileSets[1]);
+    
+    const image = new Image();
+    image.src = canvas.toDataURL();
+    return image;
   }
 }
 
