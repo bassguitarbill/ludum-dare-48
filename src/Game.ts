@@ -80,7 +80,8 @@ export default class Game {
 
   tick(timestamp: number) {
     if(this.initialTimestamp === 0) this.initialTimestamp = timestamp;
-    const dt = timestamp - this.timestamp;
+    let dt = timestamp - this.timestamp;
+    if (dt > 500) dt = 500; // clamp this to keep everything from falling through the floor!
     this.timestamp = timestamp;
     if (!this.speedrunTimerStopped) this.speedrunTimer = this.timestamp - this.initialTimestamp;
     this.framerate = 1000 / dt;
