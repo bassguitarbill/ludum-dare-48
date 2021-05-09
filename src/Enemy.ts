@@ -1,16 +1,14 @@
 import Entity from "./Entity.js";
 import Game from "./Game.js";
+import { loadSpritesheetFrom } from "./load.js";
 import { Vector2 } from "./math.js";
 import Projectile from "./Projectile.js";
 import SFX from "./SFX.js";
 import Spritesheet from "./Spritesheet.js";
 
 export default class Enemy extends Entity {
+  @loadSpritesheetFrom('assets/images/enemy.png', 16, 16)
   static spritesheet: Spritesheet;
-
-  static async load() {
-    this.spritesheet = await Spritesheet.load('assets/images/enemy.png', 16, 16);
-  }
 
   emergence = 0;
   lookRadiusSquared = 150 * 150;

@@ -3,14 +3,19 @@ import Bubble from "./Bubble.js";
 import Entity from "./Entity.js";
 import Game from "./Game.js";
 import { Controls, isControlPressed } from "./Input.js";
+import { loadSpritesheetFrom } from "./load.js";
 import { Vector2 } from "./math.js";
 import PickableObject from "./PickableObject.js";
 import SFX from "./SFX.js";
 import Spritesheet from "./Spritesheet.js";
 
 export default class Player extends Entity {
+
+  @loadSpritesheetFrom('assets/images/bathysphere.png', 20, 32)
   static spritesheet: Spritesheet;
+  @loadSpritesheetFrom('assets/images/claw.png', 7, 12)
   static clawSpritesheet: Spritesheet;
+
   bubbleOffsets = [
     new Vector2(1, 7),
     new Vector2(4, 7),
@@ -69,11 +74,6 @@ export default class Player extends Entity {
     super(game, position);
     this.subHitboxes = this.generateSubHitboxes();
     this.clawHitbox = new AABBHitbox(new Vector2(0, 0), new Vector2(4, 4))
-  }
-
-  static async load() {
-    Player.spritesheet = await Spritesheet.load('assets/images/bathysphere.png', 20, 32);
-    Player.clawSpritesheet = await Spritesheet.load('assets/images/claw.png', 7, 12);
   }
 
   tick(dt: number) {

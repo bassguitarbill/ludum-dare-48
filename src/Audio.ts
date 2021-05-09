@@ -12,4 +12,6 @@ function addAudioContextCallback(f: Function) {
 }
 window.addEventListener('click', somebodyClicked);
 
+console.log('loading audio');
+
 export { audioCtx, addAudioContextCallback }

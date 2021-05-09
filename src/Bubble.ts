@@ -1,5 +1,6 @@
 import Entity from "./Entity.js";
 import Game from "./Game.js";
+import { loadSpritesheetFrom } from "./load.js";
 import { Vector2 } from "./math.js";
 import Spritesheet from "./Spritesheet.js";
 
@@ -11,10 +12,8 @@ export default class Bubble extends Entity {
 
   lifetime: number;
 
+  @loadSpritesheetFrom('assets/images/bubble.png', 4, 4)
   static spritesheet: Spritesheet;
-  static async load() {
-    Bubble.spritesheet = await Spritesheet.load('assets/images/bubble.png', 4, 4);
-  }
 
   constructor(game: Game, position: Vector2) {
     super(game, position);

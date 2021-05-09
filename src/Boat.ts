@@ -1,17 +1,12 @@
 import AABBHitbox from "./AABBHitbox.js";
 import Entity from "./Entity.js";
 import Game from "./Game.js";
+import { loadImageFrom } from "./load.js";
 import { Vector2 } from "./math.js";
 
 export default class Boat extends Entity {
+  @loadImageFrom('assets/images/boat.png')
   static image: HTMLImageElement;
-  static async load() {
-    Boat.image = new Image();
-    await new Promise(res => {
-      Boat.image.src = 'assets/images/boat.png';
-      Boat.image.addEventListener('load', res);
-    })
-  }
 
   readonly hitbox: AABBHitbox;
   readonly itemDeliveryHitbox: AABBHitbox;

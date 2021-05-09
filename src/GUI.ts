@@ -1,15 +1,23 @@
 import Game from "./Game.js";
 import Gobo from "./Gobo.js";
+import { loadImageFrom, loadSpritesheetFrom } from "./load.js";
 import { Vector2 } from "./math.js";
 import Spritesheet from "./Spritesheet.js";
 import Text from './Text.js';
 
 export default class GUI {
-  static pressureGaugeSpritesheet: Spritesheet;
-  static upgradesSpritesheet: Spritesheet;
+  @loadImageFrom('assets/images/controls.png')
   static controlsImage: HTMLImageElement;
+  @loadImageFrom('assets/images/gameover.png')
   static gameOverImage: HTMLImageElement;
+  @loadImageFrom('assets/images/paused.png')
   static pausedImage: HTMLImageElement;
+
+  @loadSpritesheetFrom('assets/images/pressure-gauge.png', 128, 128)
+  static pressureGaugeSpritesheet: Spritesheet;
+  @loadSpritesheetFrom('assets/images/upgrades.png', 128, 128)
+  static upgradesSpritesheet: Spritesheet;
+  @loadSpritesheetFrom('assets/images/respawn-text.png', 252, 44)
   static respawnText: Spritesheet;
 
   commsText? : Text;
@@ -17,15 +25,6 @@ export default class GUI {
   gobo: Gobo;
   constructor(readonly game: Game){
     this.gobo = new Gobo(game);
-  }
-
-  static async load() {
-    GUI.pressureGaugeSpritesheet = await Spritesheet.load('assets/images/pressure-gauge.png', 128, 128);
-    GUI.upgradesSpritesheet = await Spritesheet.load('assets/images/upgrades.png', 128, 128);
-    await new Promise(res => { GUI.controlsImage = new Image(); GUI.controlsImage.src = 'assets/images/controls.png'; GUI.controlsImage.addEventListener('load', res)});
-    await new Promise(res => { GUI.gameOverImage = new Image(); GUI.gameOverImage.src = 'assets/images/gameover.png'; GUI.gameOverImage.addEventListener('load', res)});
-    await new Promise(res => { GUI.pausedImage = new Image(); GUI.pausedImage.src = 'assets/images/paused.png'; GUI.pausedImage.addEventListener('load', res)});
-    GUI.respawnText = await Spritesheet.load('assets/images/respawn-text.png', 252, 44);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -132,7 +131,6 @@ export default class GUI {
     const { minimap } = this.game;
     const { width, height } = minimap.mapImage;
     ctx.drawImage(minimap.mapImage, 0,0, width, height);
-    console.log(ctx.globalAlpha);
 
     if(minimap.flash) {
       minimap.getPoints().forEach(p => {

@@ -1,20 +1,14 @@
 import BGM from "./BGM.js";
-import Boat from "./Boat.js";
-import Bubble from "./Bubble.js";
 import Camera from "./Camera.js";
 import Debug from "./Debug.js";
-import Enemy from "./Enemy.js";
 import Entity from "./Entity.js";
 import GUI from "./GUI.js";
 import { Controls, isControlPressed } from "./Input.js";
 import MessageManager from "./MessageManager.js";
 import Minimap from "./Minimap.js";
-import PickableObject from "./PickableObject.js";
 import Player from "./Player.js";
-import Projectile from "./Projectile.js";
 import QuestManager from "./QuestManager.js";
 import SFX from "./SFX.js";
-import Text from "./Text.js";
 import TextEventManager from "./TextEventManager.js";
 import World from "./World.js";
 
@@ -64,16 +58,8 @@ export default class Game {
 
   static async load(): Promise<Game> {
     const world = await World.loadInstance('maps/map1.json');
-    await Player.load();
-    await Bubble.load();
-    await PickableObject.load();
-    await GUI.load();
     await BGM.load('assets/audio/bgm.ogg');
-    await SFX.load();
-    await Text.load();
-    await Boat.load();
-    await Enemy.load();
-    await Projectile.load();
+    await SFX.init();
     return new Game(world);
   }
 

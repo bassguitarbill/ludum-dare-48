@@ -1,14 +1,11 @@
 import { addAudioContextCallback } from "./Audio.js";
+import { loadSoundEffectsFrom } from "./load.js";
 
 export default class SFX {
+  @loadSoundEffectsFrom('crash.wav', 'pickup.wav', 'destroy.wav', 'wormyell.wav', 'explosion.wav', 'comms.wav')
   static audioElements: { [key in string]: HTMLAudioElement} = {};
   static audioSources: { [key in string]: MediaElementAudioSourceNode} = {};
-  static async load() {
-    ['crash.wav', 'pickup.wav', 'destroy.wav', 'wormyell.wav', 'explosion.wav', 'comms.wav' ].forEach(filename => {
-      const audioElement = new Audio();
-      audioElement.src = `assets/audio/${filename}`;
-      this.audioElements[filename] = audioElement;
-    });
+  static async init() {
     addAudioContextCallback((audioCtx: AudioContext) => {
       const gainNode = audioCtx.createGain();
       for(const el in this.audioElements) {

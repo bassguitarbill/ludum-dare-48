@@ -1,8 +1,10 @@
+import { loadSpritesheetFrom } from "./load.js";
 import { Vector2 } from "./math.js";
 import Spritesheet from "./Spritesheet.js";
 
 export default class Text {
 
+  @loadSpritesheetFrom('assets/images/alphabet.png', 16, 16)
   static fontSpritesheet: Spritesheet;
   static fontMap: {[key in string]: number} = {
     a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10,
@@ -12,10 +14,6 @@ export default class Text {
   }
 
   static textImages: {[key in string]: HTMLImageElement} = {};
-
-  static async load() {
-    Text.fontSpritesheet = await Spritesheet.load('assets/images/alphabet.png', 16, 16);
-  }
 
   constructor(readonly position: Vector2, readonly columns: number, public message: string) {};
 

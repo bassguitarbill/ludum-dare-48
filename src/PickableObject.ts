@@ -1,11 +1,13 @@
 import AABBHitbox from "./AABBHitbox.js";
 import Entity from "./Entity.js";
 import Game from "./Game.js";
+import { loadSpritesheetFrom } from "./load.js";
 import { Vector2 } from "./math.js";
 import SFX from "./SFX.js";
 import Spritesheet from "./Spritesheet.js";
 
 export default class PickableObject extends Entity {
+  @loadSpritesheetFrom('assets/images/pearl.png', 8, 8)
   static spritesheet: Spritesheet;
   hitbox: AABBHitbox;
 
@@ -14,10 +16,6 @@ export default class PickableObject extends Entity {
   constructor(readonly game: Game, readonly position: Vector2, readonly itemType: number) {
     super(game, position);
     this.hitbox = new AABBHitbox(new Vector2(1,1), new Vector2(7,7));
-  }
-
-  static async load() {
-    PickableObject.spritesheet = await Spritesheet.load('assets/images/pearl.png', 8, 8);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
