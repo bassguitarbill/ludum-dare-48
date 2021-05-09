@@ -30,7 +30,6 @@ export default class TitleScreen {
       const onClick = () => {
         this.gameStarted = true;
         this.game!.run();
-        console.log('Starting game now')
         this.ctx.canvas.removeEventListener('click', onClick);
       };
       this.ctx.canvas.addEventListener('click', onClick);

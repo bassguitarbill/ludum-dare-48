@@ -9,7 +9,6 @@ async function loadJson(path: string) {
 function loadImageFrom(source: string): any {
   return (target: any, propertyKey: string) => {
     addAsset(new Promise<void>(res => {
-      console.log('Loading image from ', source);
       const img = new Image();
       img.src = source;
       target[propertyKey] = img;
@@ -21,7 +20,6 @@ function loadImageFrom(source: string): any {
 function loadSpritesheetFrom(source: string, width: number, height: number): any {
   return (target: any, propertyKey: string) => {
     addAsset(new Promise<void>(async res => {
-      console.log('Loading spritesheet from ', source);
       const spritesheet = await Spritesheet.load(source, width, height);
       target[propertyKey] = spritesheet;
       res();
@@ -34,7 +32,6 @@ function loadSoundEffectsFrom(...source: Array<string>) {
     target[propertyKey] = {};
     source.forEach(s => {
       addAsset(new Promise<void>(res => {
-        console.log('loading', s);
         const audioElement = new Audio();
         audioElement.src = `assets/audio/${s}`;
         target[propertyKey][s] = audioElement;
