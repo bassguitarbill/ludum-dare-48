@@ -29,19 +29,16 @@ const keyboardMap: { [key: string]: Controls} = {
   'r': Controls.RESPAWN,
 
   'p': Controls.PAUSE,
-}
+};
 
-const controlMap = {
-  [Controls.DOWN]: ['s', 'ArrowDown'],
-  [Controls.UP]: ['w', 'ArrowUp'],
-  [Controls.LEFT]: ['a', 'ArrowLeft'],
-  [Controls.RIGHT]: ['d', 'ArrowRight'],
-  [Controls.THRUST]: [' '],
-  [Controls.CLAW_EXTEND]: ['z'],
-  [Controls.CLAW_RELEASE]: ['x'],
-  [Controls.RESPAWN]: ['r'],
-  [Controls.PAUSE]: ['p'],
-}
+const controlMap = Object.keys(keyboardMap).reduce((acc: {[key in Controls]: Array<string>}, key: string) => {
+  if (keyboardMap[key] in acc) {
+    acc[keyboardMap[key]].push(key);
+  } else {
+    acc[keyboardMap[key]] = [key];
+  }
+  return acc;
+}, {} as {[key in Controls]: Array<string>});
 
 const currentlyPressedKeys: {[key: string]: boolean} = {};
 
